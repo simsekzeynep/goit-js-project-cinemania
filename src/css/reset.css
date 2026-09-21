@@ -1,34 +1,22 @@
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-p {
-  margin: 0;
-}
+/* modern normalize */
+@import url('https://cdnjs.cloudflare.com/ajax/libs/modern-normalize/3.0.1/modern-normalize.min.css');
 
-p:last-child {
-  margin-bottom: 0;
-}
-
-ul {
+/* Global Box Sizing & Margin/Padding Reset */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
+}
+
+/* Temel Liste ve Link Sıfırlamaları */
+ul,
+ol {
   list-style: none;
 }
 
 a {
-  color: currentColor;
   text-decoration: none;
-}
-
-button {
-  cursor: pointer;
-}
-
-img {
-  display: block;
-  max-width: 100%;
-  height: auto;
+  color: inherit;
 }
