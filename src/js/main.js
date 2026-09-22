@@ -1,3 +1,4 @@
+import './hero.js';
 import './upcoming.js';
 import { getWeeklyTrends, getGenres } from './tmdb-api.js';
 // Tema

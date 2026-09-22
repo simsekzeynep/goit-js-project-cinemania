@@ -537,3 +537,22 @@ button:focus-visible {
     font-size: 32px;
   }
 }
+/* Dinamik Hero */
+
+.hero-rating {
+  margin: 0 0 20px;
+  color: #ff9500;
+  font-size: 20px;
+  line-height: 1.4;
+}
+
+.hero-description-film {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+  overflow: hidden;
+}
+
+.hero-title {
+  overflow-wrap: anywhere;
+}

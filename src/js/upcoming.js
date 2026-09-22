@@ -5,13 +5,17 @@ const STORAGE_KEY = 'cinemania-library';
 
 function createElement(tag, className, text) {
   const element = document.createElement(tag);
+
   if (className) element.className = className;
   if (text !== undefined) element.textContent = text;
+
   return element;
 }
 
 function readLibrary() {
-  const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+  const saved = JSON.parse(
+    localStorage.getItem(STORAGE_KEY) || '[]'
+  );
 
   if (!Array.isArray(saved)) {
     throw new Error('Kütüphane verisi okunamadı.');
@@ -31,7 +35,10 @@ async function loadUpcoming() {
       getGenres(),
     ]);
 
-    const movie = movies.find(item => item.backdrop_path) || movies[0];
+    // Gelen filmler arasından rastgele birini seç.
+    const movie = movies.length
+      ? movies[Math.floor(Math.random() * movies.length)]
+      : null;
 
     if (!movie) {
       wrapper.textContent = 'No movies found for this month.';
@@ -49,7 +56,11 @@ async function loadUpcoming() {
       article.append(image);
     } else {
       article.append(
-        createElement('div', 'upcoming-image upcoming-placeholder', 'No image available')
+        createElement(
+          'div',
+          'upcoming-image upcoming-placeholder',
+          'No image available'
+        )
       );
     }
 
@@ -87,7 +98,12 @@ async function loadUpcoming() {
       facts.append(term, description);
     });
 
-    const aboutTitle = createElement('h4', 'upcoming-about-title', 'About');
+    const aboutTitle = createElement(
+      'h4',
+      'upcoming-about-title',
+      'About'
+    );
+
     const overview = createElement(
       'p',
       'upcoming-overview',
@@ -101,10 +117,14 @@ async function loadUpcoming() {
     status.setAttribute('role', 'status');
 
     function updateButton() {
-      const isSaved = readLibrary().some(item => item.id === movie.id);
+      const isSaved = readLibrary().some(
+        item => item.id === movie.id
+      );
+
       button.textContent = isSaved
         ? 'Remove from my library'
         : 'Add to my library';
+
       button.setAttribute('aria-pressed', String(isSaved));
     }
 
@@ -113,34 +133,52 @@ async function loadUpcoming() {
     } catch {
       button.textContent = 'Add to my library';
       button.disabled = true;
-      status.textContent = 'Your library is unavailable in this browser.';
+      status.textContent =
+        'Your library is unavailable in this browser.';
     }
 
     button.addEventListener('click', () => {
       try {
         const library = readLibrary();
-        const isSaved = library.some(item => item.id === movie.id);
+        const isSaved = library.some(
+          item => item.id === movie.id
+        );
 
         const updatedLibrary = isSaved
           ? library.filter(item => item.id !== movie.id)
           : [...library, movie];
 
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedLibrary));
+        localStorage.setItem(
+          STORAGE_KEY,
+          JSON.stringify(updatedLibrary)
+        );
+
         updateButton();
 
         status.textContent = isSaved
           ? 'Movie removed from your library.'
           : 'Movie added to your library.';
       } catch {
-        status.textContent = 'Could not update your library. Please try again.';
+        status.textContent =
+          'Could not update your library. Please try again.';
       }
     });
 
-    content.append(title, facts, aboutTitle, overview, button, status);
+    content.append(
+      title,
+      facts,
+      aboutTitle,
+      overview,
+      button,
+      status
+    );
+
     article.append(content);
     wrapper.replaceChildren(article);
   } catch (error) {
-    wrapper.textContent = 'Movie could not be loaded. Please try again later.';
+    wrapper.textContent =
+      'Movie could not be loaded. Please try again later.';
+
     console.warn(
       'Upcoming yüklenemedi:',
       error.response?.status || error.message
