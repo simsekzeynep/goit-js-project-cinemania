@@ -15,19 +15,64 @@
     <load src="./partials/header.html" />
 
     <main>
-      <!-- CATALOG HERO -->
-      <section class="catalog-hero">
+      <!-- HERO -->
+      <section class="catalog-hero" id="catalogHero">
         <div class="catalog-container">
-          <div class="catalog-hero-content" id="catalogHero"></div>
+          <div
+            class="catalog-hero-content"
+            id="catalogHeroContent"
+            hidden
+          >
+            <h1
+              class="catalog-hero-title"
+              id="catalogHeroTitle"
+            ></h1>
+
+            <div
+              class="catalog-hero-rating"
+              id="catalogHeroRating"
+            ></div>
+
+            <p
+              class="catalog-hero-description"
+              id="catalogHeroDescription"
+            ></p>
+
+            <div class="catalog-hero-actions">
+              <button
+                class="catalog-hero-trailer-btn"
+                id="catalogHeroTrailerBtn"
+                type="button"
+              >
+                Watch trailer
+              </button>
+
+              <button
+                class="catalog-hero-details-btn"
+                id="catalogHeroDetailsBtn"
+                type="button"
+              >
+                More details
+              </button>
+            </div>
+          </div>
+
+          <p
+            class="catalog-hero-message"
+            id="catalogHeroMessage"
+            hidden
+          ></p>
         </div>
       </section>
 
-      <!-- CATALOG CONTENT -->
+      <!-- CATALOG -->
       <section class="catalog-section">
         <div class="catalog-container">
-
-          <!-- SEARCH -->
-          <form class="catalog-search-form" id="catalogSearchForm">
+          <!-- SEARCH FORM -->
+          <form
+            class="catalog-search-form"
+            id="catalogSearchForm"
+          >
             <div class="catalog-search-wrapper">
               <input
                 class="catalog-search-input"
@@ -40,17 +85,16 @@
               />
 
               <button
-                class="catalog-clear-btn"
+                class="catalog-clear-btn is-hidden"
                 id="catalogClearBtn"
                 type="button"
                 aria-label="Clear search"
-                hidden
               >
                 ×
               </button>
             </div>
 
-            <!-- YEAR -->
+            <!-- YEAR SELECT -->
             <select
               class="catalog-year-select"
               id="catalogYearSelect"
@@ -96,15 +140,19 @@
     <load src="./partials/footer.html" />
     <load src="./partials/modal.html" />
 
-    <!--
-      Loader ve scroll-top MAIN'e merge edilince buraya eklenecek:
-
-      <load src="./partials/scroll-top.html" />
-      <load src="./partials/loader.html" />
-      <script type="module" src="./js/scrollTop.js"></script>
+    <!-- TODO:
+      Ahsen'in loader ve scroll-top kodları main'e merge edilince
+      buraya eklenecek.
     -->
 
-    <script type="module" src="./js/main.js"></script>
-    <script type="module" src="./js/catalog.js"></script>
+    <script
+      type="module"
+      src="./js/main.js"
+    ></script>
+
+    <script
+      type="module"
+      src="./js/catalog.js"
+    ></script>
   </body>
 </html>
