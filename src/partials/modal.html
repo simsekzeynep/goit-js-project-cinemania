@@ -1,0 +1,46 @@
+<dialog id="movie-modal" class="movie-modal">
+  <div class="movie-modal__box">
+    <button type="button" class="movie-modal__close" aria-label="Close">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+        <path
+          d="M18 6L6 18M6 6l12 12"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+        />
+      </svg>
+    </button>
+
+    <img class="movie-modal__poster" id="movie-poster" alt="" />
+
+    <div class="movie-modal__content">
+      <h2 class="movie-modal__title" id="movie-title"></h2>
+
+      <ul class="movie-info">
+        <li class="movie-info__row">
+          <span class="movie-info__label">Vote / Votes</span>
+          <span class="movie-info__value">
+            <span class="movie-info__badge" id="movie-vote"></span>
+            <span class="movie-info__slash">/</span>
+            <span class="movie-info__badge" id="movie-votes"></span>
+          </span>
+        </li>
+        <li class="movie-info__row">
+          <span class="movie-info__label">Popularity</span>
+          <span class="movie-info__value" id="movie-popularity"></span>
+        </li>
+        <li class="movie-info__row">
+          <span class="movie-info__label">Genre</span>
+          <span class="movie-info__value" id="movie-genre"></span>
+        </li>
+      </ul>
+
+      <h3 class="movie-modal__about">ABOUT</h3>
+      <p class="movie-modal__overview" id="movie-overview"></p>
+
+      <button type="button" class="movie-modal__library-btn" id="library-btn">
+        Add to my library
+      </button>
+    </div>
+  </div>
+</dialog>
