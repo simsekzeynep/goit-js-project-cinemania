@@ -1,3 +1,4 @@
+import { showLoader, hideLoader } from './loader.js';
 import { getUpcomingThisMonth, getGenres } from './tmdb-api.js';
 
 const wrapper = document.querySelector('#upcomingWrapper');
@@ -28,6 +29,7 @@ async function loadUpcoming() {
   if (!wrapper) return;
 
   wrapper.textContent = 'Loading movie…';
+  showLoader();
 
   try {
     const [movies, genres] = await Promise.all([
@@ -183,6 +185,8 @@ async function loadUpcoming() {
       'Upcoming yüklenemedi:',
       error.response?.status || error.message
     );
+  } finally {
+    hideLoader();
   }
 }
 

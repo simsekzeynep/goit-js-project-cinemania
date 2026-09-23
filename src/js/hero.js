@@ -1,3 +1,4 @@
+import { showLoader, hideLoader } from './loader.js';
 import { getDailyTrends } from './tmdb-api.js';
 import { openMovieModal } from './movieModal.js';
 import { openTrailerModal } from './trailerModal.js';
@@ -8,6 +9,8 @@ async function loadHero() {
   const description = hero?.querySelector('.hero-description');
 
   if (!hero || !title || !description) return;
+
+  showLoader();
 
   try {
     const movies = await getDailyTrends();
@@ -26,10 +29,26 @@ async function loadHero() {
       `https://image.tmdb.org/t/p/original${movie.backdrop_path}`;
 
     // Görsel yüklenmeden varsayılan görünümü değiştirme.
+    // Görsel uzun süre yanıt vermezse loader açık kalmasın.
     await new Promise((resolve, reject) => {
       const image = new Image();
-      image.onload = resolve;
-      image.onerror = reject;
+
+      const timeoutId = window.setTimeout(() => {
+        image.onload = null;
+        image.onerror = null;
+        reject(new Error('Hero görseli zamanında yüklenemedi.'));
+      }, 15000);
+
+      image.onload = () => {
+        window.clearTimeout(timeoutId);
+        resolve();
+      };
+
+      image.onerror = () => {
+        window.clearTimeout(timeoutId);
+        reject(new Error('Hero görseli yüklenemedi.'));
+      };
+
       image.src = imageUrl;
     });
 
@@ -98,7 +117,6 @@ async function loadHero() {
       openTrailerModal(movie.id);
     });
 
-    // İki butonu aynı alanda göster.
     const actions = document.createElement('div');
     actions.className = 'hero-actions';
     actions.append(detailsButton, trailerButton);
@@ -109,6 +127,8 @@ async function loadHero() {
       'Hero yüklenemedi; varsayılan görünüm korunuyor.',
       error.response?.status || 'Görsel veya bağlantı hatası'
     );
+  } finally {
+    hideLoader();
   }
 }
 

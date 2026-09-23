@@ -1,3 +1,4 @@
+import { showLoader, hideLoader } from './loader.js';
 import { openMovieModal } from './movieModal.js';
 import './hero.js';
 import './upcoming.js';
@@ -95,7 +96,6 @@ if (menuButton && mobileMenu && closeButton) {
       return;
     }
 
-    // Klavye odağını açık menünün içinde tut.
     if (event.key === 'Tab') {
       const items = Array.from(
         mobileMenu.querySelectorAll('button:not(:disabled), a[href]')
@@ -123,10 +123,7 @@ if (menuButton && mobileMenu && closeButton) {
   });
 }
 
-// Haftanın popüler filmleri
-const weeklyList = document.querySelector('#weeklyList');
-
-// Bir istek sürerken başka bir kart isteğinin başlamasını önle.
+// Film detay modalı
 let isMovieModalOpening = false;
 
 async function showMovieDetails(movieId) {
@@ -146,6 +143,9 @@ async function showMovieDetails(movieId) {
   }
 }
 
+// Haftanın popüler filmleri
+const weeklyList = document.querySelector('#weeklyList');
+
 async function loadWeeklyTrends() {
   if (!weeklyList) return;
 
@@ -156,6 +156,7 @@ async function loadWeeklyTrends() {
   }
 
   showMessage('Loading movies…');
+  showLoader();
 
   try {
     const [movies, genres] = await Promise.all([
@@ -172,13 +173,9 @@ async function loadWeeklyTrends() {
       card.className = 'weekly-card';
       card.dataset.movieId = movie.id;
 
-      // Kartı fare ve klavye ile açılabilir yap.
       card.tabIndex = 0;
       card.setAttribute('role', 'button');
-      card.setAttribute(
-        'aria-label',
-        `${movie.title} — View details`
-      );
+      card.setAttribute('aria-label', `${movie.title} — View details`);
       card.setAttribute('aria-haspopup', 'dialog');
 
       card.addEventListener('click', () => {
@@ -198,8 +195,7 @@ async function loadWeeklyTrends() {
       if (movie.poster_path) {
         const poster = document.createElement('img');
         poster.className = 'weekly-card-poster';
-        poster.src =
-          `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
+        poster.src = `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
         poster.alt = movie.title;
         poster.loading = 'lazy';
         card.append(poster);
@@ -219,9 +215,7 @@ async function loadWeeklyTrends() {
         .join(', ');
 
       const year = movie.release_date?.slice(0, 4);
-      details.textContent = [names, year]
-        .filter(Boolean)
-        .join(' | ');
+      details.textContent = [names, year].filter(Boolean).join(' | ');
 
       const rating = document.createElement('p');
       rating.className = 'weekly-card-rating';
@@ -247,6 +241,8 @@ async function loadWeeklyTrends() {
       'Weekly Trends yüklenemedi:',
       error.response?.status || error.message
     );
+  } finally {
+    hideLoader();
   }
 }
 
