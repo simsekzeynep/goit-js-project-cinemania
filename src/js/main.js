@@ -1,6 +1,8 @@
+import { openMovieModal } from './movieModal.js';
 import './hero.js';
 import './upcoming.js';
 import { getWeeklyTrends, getGenres } from './tmdb-api.js';
+
 // Tema
 const themeButton = document.querySelector('.theme-toggle');
 const themeIcon = themeButton?.querySelector('span');
@@ -124,6 +126,26 @@ if (menuButton && mobileMenu && closeButton) {
 // Haftanın popüler filmleri
 const weeklyList = document.querySelector('#weeklyList');
 
+// Bir istek sürerken başka bir kart isteğinin başlamasını önle.
+let isMovieModalOpening = false;
+
+async function showMovieDetails(movieId) {
+  if (isMovieModalOpening) return;
+
+  isMovieModalOpening = true;
+
+  try {
+    await openMovieModal(movieId);
+  } catch (error) {
+    console.warn(
+      'Film detay penceresi açılamadı:',
+      error.response?.status || error.message
+    );
+  } finally {
+    isMovieModalOpening = false;
+  }
+}
+
 async function loadWeeklyTrends() {
   if (!weeklyList) return;
 
@@ -150,10 +172,34 @@ async function loadWeeklyTrends() {
       card.className = 'weekly-card';
       card.dataset.movieId = movie.id;
 
+      // Kartı fare ve klavye ile açılabilir yap.
+      card.tabIndex = 0;
+      card.setAttribute('role', 'button');
+      card.setAttribute(
+        'aria-label',
+        `${movie.title} — View details`
+      );
+      card.setAttribute('aria-haspopup', 'dialog');
+
+      card.addEventListener('click', () => {
+        showMovieDetails(movie.id);
+      });
+
+      card.addEventListener('keydown', event => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+
+          if (!event.repeat) {
+            showMovieDetails(movie.id);
+          }
+        }
+      });
+
       if (movie.poster_path) {
         const poster = document.createElement('img');
         poster.className = 'weekly-card-poster';
-        poster.src = `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
+        poster.src =
+          `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
         poster.alt = movie.title;
         poster.loading = 'lazy';
         card.append(poster);
@@ -196,6 +242,7 @@ async function loadWeeklyTrends() {
     weeklyList.replaceChildren(...cards);
   } catch (error) {
     showMessage('Movies could not be loaded. Please try again later.');
+
     console.warn(
       'Weekly Trends yüklenemedi:',
       error.response?.status || error.message

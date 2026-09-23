@@ -562,3 +562,89 @@ button:focus-visible {
     font-size: 32px;
   }
 }
+.weekly-card[role='button'] {
+  cursor: pointer;
+}
+
+.weekly-card[role='button']:focus-visible {
+  outline: 2px solid var(--accent-color);
+  outline-offset: 4px;
+}
+/* Hero butonları */
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.hero-button-outline {
+  background: transparent;
+  border-color: #ffffff;
+  color: #ffffff;
+}
+
+.hero-button-outline:hover {
+  background: #ffffff;
+  color: #111111;
+}
+
+/* Fragman penceresi */
+
+.trailer-modal {
+  position: fixed;
+  inset: 0;
+  width: min(900px, calc(100% - 32px));
+  max-width: none;
+  max-height: calc(100dvh - 32px);
+  margin: auto;
+  padding: 48px 20px 24px;
+  overflow-y: auto;
+  border: 1px solid var(--accent-color);
+  border-radius: 16px;
+  background: var(--page-bg);
+  color: var(--text-color);
+}
+
+.trailer-modal::backdrop {
+  background: rgb(0 0 0 / 75%);
+}
+
+.trailer-modal-title {
+  margin: 0 36px 20px 0;
+  font-size: 22px;
+}
+
+.trailer-modal-close {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: inherit;
+  font-size: 32px;
+}
+
+.trailer-modal-video {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: none;
+}
+
+.trailer-modal-content p {
+  margin: 0;
+  line-height: 1.5;
+}
+
+.trailer-youtube-link {
+  display: inline-block;
+  margin-top: 16px;
+  color: var(--accent-color);
+  text-decoration: underline;
+}

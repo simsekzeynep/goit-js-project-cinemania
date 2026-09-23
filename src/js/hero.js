@@ -1,4 +1,6 @@
 import { getDailyTrends } from './tmdb-api.js';
+import { openMovieModal } from './movieModal.js';
+import { openTrailerModal } from './trailerModal.js';
 
 async function loadHero() {
   const hero = document.querySelector('.hero');
@@ -23,7 +25,7 @@ async function loadHero() {
     const imageUrl =
       `https://image.tmdb.org/t/p/original${movie.backdrop_path}`;
 
-    // Arka plan hazır olduktan sonra film bilgilerini göster.
+    // Görsel yüklenmeden varsayılan görünümü değiştirme.
     await new Promise((resolve, reject) => {
       const image = new Image();
       image.onload = resolve;
@@ -41,6 +43,7 @@ async function loadHero() {
     `;
 
     hero.dataset.movieId = movie.id;
+
     title.textContent = movie.title;
     description.textContent =
       movie.overview || 'No description available.';
@@ -55,6 +58,52 @@ async function loadHero() {
 
     const defaultButton = hero.querySelector('a.hero-button');
     if (defaultButton) defaultButton.hidden = true;
+
+    // Film detayları butonu
+    const detailsButton = document.createElement('button');
+    detailsButton.type = 'button';
+    detailsButton.className = 'hero-button';
+    detailsButton.textContent = 'More details';
+    detailsButton.setAttribute('aria-haspopup', 'dialog');
+
+    let isOpening = false;
+
+    detailsButton.addEventListener('click', async () => {
+      if (isOpening) return;
+
+      isOpening = true;
+      detailsButton.setAttribute('aria-disabled', 'true');
+
+      try {
+        await openMovieModal(movie.id);
+      } catch (error) {
+        console.warn(
+          'Film detay penceresi açılamadı:',
+          error.response?.status || error.message
+        );
+      } finally {
+        isOpening = false;
+        detailsButton.removeAttribute('aria-disabled');
+      }
+    });
+
+    // Fragman butonu
+    const trailerButton = document.createElement('button');
+    trailerButton.type = 'button';
+    trailerButton.className = 'hero-button hero-button-outline';
+    trailerButton.textContent = 'Watch trailer';
+    trailerButton.setAttribute('aria-haspopup', 'dialog');
+
+    trailerButton.addEventListener('click', () => {
+      openTrailerModal(movie.id);
+    });
+
+    // İki butonu aynı alanda göster.
+    const actions = document.createElement('div');
+    actions.className = 'hero-actions';
+    actions.append(detailsButton, trailerButton);
+
+    description.after(actions);
   } catch (error) {
     console.warn(
       'Hero yüklenemedi; varsayılan görünüm korunuyor.',
