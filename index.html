@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Cinemania — Home</title>
     <script type="module" crossorigin src="/vanilla-app-template/index.js"></script>
-    <link rel="stylesheet" crossorigin href="/vanilla-app-template/assets/index-Dojl-AXi.css">
+    <link rel="stylesheet" crossorigin href="/vanilla-app-template/assets/index-BRgK0tHl.css">
   </head>
 
   <body>
@@ -33,7 +33,274 @@
     </main>
 
     
-    
+    <dialog id="movie-modal" class="movie-modal">
+  <div class="movie-modal__box">
+    <button type="button" class="movie-modal__close" aria-label="Close">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+        <path
+          d="M18 6L6 18M6 6l12 12"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+        />
+      </svg>
+    </button>
+
+    <img class="movie-modal__poster" id="movie-poster" alt="" />
+
+    <div class="movie-modal__content">
+      <h2 class="movie-modal__title" id="movie-title"></h2>
+
+      <ul class="movie-info">
+        <li class="movie-info__row">
+          <span class="movie-info__label">Vote / Votes</span>
+          <span class="movie-info__value">
+            <span class="movie-info__badge" id="movie-vote"></span>
+            <span class="movie-info__slash">/</span>
+            <span class="movie-info__badge" id="movie-votes"></span>
+          </span>
+        </li>
+        <li class="movie-info__row">
+          <span class="movie-info__label">Popularity</span>
+          <span class="movie-info__value" id="movie-popularity"></span>
+        </li>
+        <li class="movie-info__row">
+          <span class="movie-info__label">Genre</span>
+          <span class="movie-info__value" id="movie-genre"></span>
+        </li>
+      </ul>
+
+      <h3 class="movie-modal__about">ABOUT</h3>
+      <p class="movie-modal__overview" id="movie-overview"></p>
+
+      <button type="button" class="movie-modal__library-btn" id="library-btn">
+        Add to my library
+      </button>
+    </div>
+  </div>
+</dialog>
+
+    <button
+  type="button"
+  id="scroll-top-btn"
+  class="scroll-top-btn"
+  aria-label="Scroll to top"
+>
+  <svg
+    width="20"
+    height="20"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M12 19V5M12 5L5 12M12 5L19 12"
+      stroke="currentColor"
+      stroke-width="2.5"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+  </svg>
+</button>
+
+    <div
+  class="loader-overlay"
+  id="loader"
+  role="status"
+  aria-label="Loading"
+  hidden
+>
+  <span class="loader-spinner"></span>
+</div>
+
+    <dialog id="team-modal" class="team-modal">
+  <div class="team-modal__box">
+    <button type="button" class="team-modal__close" aria-label="Close">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+        <path
+          d="M18 6L6 18M6 6l12 12"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+        />
+      </svg>
+    </button>
+
+    <h2 class="team-modal__title">Cinemania Project Team</h2>
+    <p class="team-modal__subtitle">The creative minds behind Cinemania</p>
+
+    <ul class="team-list">
+      <li class="team-card">
+        <img
+          class="team-card__avatar"
+          src="https://github.com/ahsengoktas.png"
+          alt="Ahsen Göktaş"
+          width="48"
+          height="48"
+          loading="lazy"
+        />
+        <div class="team-card__info">
+          <h3 class="team-card__name">Ahsen Göktaş</h3>
+          <p class="team-card__role">Developer</p>
+        </div>
+        <div class="team-card__links">
+          <a
+            class="team-card__link"
+            href="https://www.linkedin.com/in/ahsengoktas/"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Ahsen Göktaş LinkedIn"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M4.98 3.5a2.5 2.5 0 1 1-.02 5 2.5 2.5 0 0 1 .02-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.77-1.95 4.03 0 4.78 2.5 4.78 5.75V21h-4v-5.6c0-1.33-.03-3.05-1.9-3.05-1.9 0-2.2 1.45-2.2 2.95V21H9z"
+              />
+            </svg>
+          </a>
+          <a
+            class="team-card__link"
+            href="https://github.com/ahsengoktas"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Ahsen Göktaş GitHub"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M12 .5C5.73.5.5 5.73.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56v-2c-3.2.7-3.88-1.54-3.88-1.54-.53-1.34-1.29-1.7-1.29-1.7-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.23-1.28-5.23-5.68 0-1.25.45-2.28 1.19-3.08-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11.1 11.1 0 0 1 5.8 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.12 3.05.74.8 1.18 1.83 1.18 3.08 0 4.41-2.69 5.39-5.25 5.67.41.36.78 1.06.78 2.14v3.17c0 .31.21.68.8.56A11.51 11.51 0 0 0 23.5 12C23.5 5.73 18.27.5 12 .5z"
+              />
+            </svg>
+          </a>
+        </div>
+      </li>
+      <li class="team-card">
+        <img
+          class="team-card__avatar"
+          src="https://github.com/nnesrineekinci.png"
+          alt="Nesrin Ekinci"
+          width="48"
+          height="48"
+          loading="lazy"
+        />
+        <div class="team-card__info">
+          <h3 class="team-card__name">Nesrin Ekinci</h3>
+          <p class="team-card__role">Developer</p>
+        </div>
+        <div class="team-card__links">
+          <a
+            class="team-card__link"
+            href="https://www.linkedin.com/in/nnesrineekinci"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Nesrin Ekinci LinkedIn"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M4.98 3.5a2.5 2.5 0 1 1-.02 5 2.5 2.5 0 0 1 .02-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.77-1.95 4.03 0 4.78 2.5 4.78 5.75V21h-4v-5.6c0-1.33-.03-3.05-1.9-3.05-1.9 0-2.2 1.45-2.2 2.95V21H9z"
+              />
+            </svg>
+          </a>
+          <a
+            class="team-card__link"
+            href="https://github.com/nnesrineekinci"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Nesrin Ekinci GitHub"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M12 .5C5.73.5.5 5.73.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56v-2c-3.2.7-3.88-1.54-3.88-1.54-.53-1.34-1.29-1.7-1.29-1.7-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.23-1.28-5.23-5.68 0-1.25.45-2.28 1.19-3.08-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11.1 11.1 0 0 1 5.8 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.12 3.05.74.8 1.18 1.83 1.18 3.08 0 4.41-2.69 5.39-5.25 5.67.41.36.78 1.06.78 2.14v3.17c0 .31.21.68.8.56A11.51 11.51 0 0 0 23.5 12C23.5 5.73 18.27.5 12 .5z"
+              />
+            </svg>
+          </a>
+        </div>
+      </li>
+      <li class="team-card">
+        <img
+          class="team-card__avatar"
+          src="https://github.com/simsekzeynep.png"
+          alt="Zeynep Şimşek"
+          width="48"
+          height="48"
+          loading="lazy"
+        />
+        <div class="team-card__info">
+          <h3 class="team-card__name">Zeynep Şimşek</h3>
+          <p class="team-card__role">Developer</p>
+        </div>
+        <div class="team-card__links">
+          <a
+            class="team-card__link"
+            href="https://www.linkedin.com/in/zeynep-t-9207911a3/"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Zeynep Şimşek LinkedIn"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M4.98 3.5a2.5 2.5 0 1 1-.02 5 2.5 2.5 0 0 1 .02-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.77-1.95 4.03 0 4.78 2.5 4.78 5.75V21h-4v-5.6c0-1.33-.03-3.05-1.9-3.05-1.9 0-2.2 1.45-2.2 2.95V21H9z"
+              />
+            </svg>
+          </a>
+          <a
+            class="team-card__link"
+            href="https://github.com/simsekzeynep"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Zeynep Şimşek GitHub"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M12 .5C5.73.5.5 5.73.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56v-2c-3.2.7-3.88-1.54-3.88-1.54-.53-1.34-1.29-1.7-1.29-1.7-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.23-1.28-5.23-5.68 0-1.25.45-2.28 1.19-3.08-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11.1 11.1 0 0 1 5.8 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.12 3.05.74.8 1.18 1.83 1.18 3.08 0 4.41-2.69 5.39-5.25 5.67.41.36.78 1.06.78 2.14v3.17c0 .31.21.68.8.56A11.51 11.51 0 0 0 23.5 12C23.5 5.73 18.27.5 12 .5z"
+              />
+            </svg>
+          </a>
+        </div>
+      </li>
+      <li class="team-card">
+        <img
+          class="team-card__avatar"
+          src="https://github.com/melisgonden.png"
+          alt="Melis Gönden"
+          width="48"
+          height="48"
+          loading="lazy"
+        />
+        <div class="team-card__info">
+          <h3 class="team-card__name">Melis Gönden</h3>
+          <p class="team-card__role">Developer</p>
+        </div>
+        <div class="team-card__links">
+          <a
+            class="team-card__link"
+            href="https://www.linkedin.com/in/melis-g%C3%B6nden-4b3158373"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Melis Gönden LinkedIn"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M4.98 3.5a2.5 2.5 0 1 1-.02 5 2.5 2.5 0 0 1 .02-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.77-1.95 4.03 0 4.78 2.5 4.78 5.75V21h-4v-5.6c0-1.33-.03-3.05-1.9-3.05-1.9 0-2.2 1.45-2.2 2.95V21H9z"
+              />
+            </svg>
+          </a>
+          <a
+            class="team-card__link"
+            href="https://github.com/melisgonden"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Melis Gönden GitHub"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M12 .5C5.73.5.5 5.73.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56v-2c-3.2.7-3.88-1.54-3.88-1.54-.53-1.34-1.29-1.7-1.29-1.7-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.23-1.28-5.23-5.68 0-1.25.45-2.28 1.19-3.08-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11.1 11.1 0 0 1 5.8 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.12 3.05.74.8 1.18 1.83 1.18 3.08 0 4.41-2.69 5.39-5.25 5.67.41.36.78 1.06.78 2.14v3.17c0 .31.21.68.8.56A11.51 11.51 0 0 0 23.5 12C23.5 5.73 18.27.5 12 .5z"
+              />
+            </svg>
+          </a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</dialog>
 
   </body>
 </html>
