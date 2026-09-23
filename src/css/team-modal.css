@@ -1,0 +1,208 @@
+/* ===== Dialog kabuğu ===== */
+.team-modal {
+  padding: 0;
+  border: none;
+  background: transparent;
+  max-width: 100%;
+  max-height: 100%;
+  overflow: visible;
+}
+
+.team-modal::backdrop {
+  background-color: rgba(17, 17, 17, 0.8);
+}
+
+.team-modal[open] {
+  animation: team-modal-in 0.25s ease-out;
+}
+
+@keyframes team-modal-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* ===== Pencere ===== */
+.team-modal__box {
+  position: relative;
+  width: 90vw;
+  max-width: 480px;
+  max-height: 85vh;
+  overflow-y: auto;
+  padding: 24px 20px;
+  border-radius: 16px;
+  background-color: #111111;
+  box-shadow:
+    0 0 0 1px rgba(248, 119, 25, 0.4),
+    0 0 48px rgba(248, 119, 25, 0.25),
+    0 20px 56px rgba(0, 0, 0, 0.7);
+}
+
+/* ===== Kapatma butonu ===== */
+.team-modal__close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: #b7b7b7;
+  cursor: pointer;
+  transition:
+    color 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.team-modal__close:hover,
+.team-modal__close:focus-visible {
+  color: #f87719;
+  background-color: rgba(248, 119, 25, 0.12);
+}
+
+/* ===== Başlık ===== */
+.team-modal__title {
+  margin-bottom: 4px;
+  font-size: 20px;
+  font-weight: 700;
+  text-align: center;
+  color: #ffffff;
+}
+
+.team-modal__subtitle {
+  margin-bottom: 20px;
+  font-size: 12px;
+  text-align: center;
+  color: #b7b7b7;
+}
+
+/* ===== Kart listesi ===== */
+.team-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.team-card {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 12px;
+  align-items: center;
+  padding: 12px;
+  border: 1px solid #282828;
+  border-radius: 12px;
+  background-color: #1a1a1a;
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.team-card:hover {
+  border-color: rgba(248, 119, 25, 0.5);
+  background-color: #202020;
+}
+
+.team-card__avatar {
+  grid-row: 1 / 3;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  background-color: #282828;
+}
+
+.team-card__info {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.team-card__name {
+  font-size: 14px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.team-card__role {
+  font-size: 12px;
+  color: #b7b7b7;
+}
+
+/* ===== Sosyal ikonlar ===== */
+.team-card__links {
+  grid-column: 2;
+  grid-row: 2;
+  display: flex;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.team-card__link {
+  display: flex;
+  color: #595959;
+  transition: color 0.2s ease;
+}
+
+.team-card__link:hover,
+.team-card__link:focus-visible {
+  color: #f87719;
+}
+
+/* ===== Tablet ===== */
+@media (min-width: 768px) {
+  .team-modal__box {
+    max-width: 560px;
+    padding: 32px 28px;
+  }
+
+  .team-modal__close {
+    top: 16px;
+    right: 16px;
+  }
+
+  .team-modal__title {
+    font-size: 24px;
+  }
+
+  .team-modal__subtitle {
+    margin-bottom: 24px;
+    font-size: 14px;
+  }
+
+  .team-card {
+    padding: 16px;
+  }
+
+  .team-card__avatar {
+    width: 48px;
+    height: 48px;
+  }
+
+  .team-card__name {
+    font-size: 16px;
+  }
+}
+
+/* ===== Desktop ===== */
+@media (min-width: 1280px) {
+  .team-modal__box {
+    padding: 32px;
+  }
+
+  .team-modal__title {
+    font-size: 28px;
+  }
+
+  .team-card__role {
+    font-size: 14px;
+  }
+}
