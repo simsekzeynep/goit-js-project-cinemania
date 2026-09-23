@@ -1,15 +1,50 @@
 import axios from 'axios';
-// API İstekleri için Temel Sabitler
+
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 const BASE_URL = 'https://api.themoviedb.org/3';
 
-//TMDB API'den film türlerini getirir.
+// Film türlerini getirir.
 export async function getGenres() {
-    const response = await axios.get(`${BASE_URL}/genre/movie/list`, {
+  const response = await axios.get(`${BASE_URL}/genre/movie/list`, {
     params: {
-        api_key: API_KEY,
-        language: 'en',
+      api_key: API_KEY,
+      language: 'en',
     },
-    });
-    return response.data.genres;
+  });
+
+  return response.data.genres;
+}
+
+// Haftanın trend filmlerini getirir.
+export async function getTrendingMovies(page = 1) {
+  const response = await axios.get(`${BASE_URL}/trending/movie/week`, {
+    params: {
+      api_key: API_KEY,
+      page,
+      language: 'en-US',
+    },
+  });
+
+  return response.data;
+}
+
+// Anahtar kelime ve yıla göre film arar.
+export async function searchMovies(query, year = '', page = 1) {
+  const params = {
+    api_key: API_KEY,
+    query,
+    page,
+    language: 'en-US',
+    include_adult: false,
+  };
+
+  if (year) {
+    params.year = year;
+  }
+
+  const response = await axios.get(`${BASE_URL}/search/movie`, {
+    params,
+  });
+
+  return response.data;
 }
