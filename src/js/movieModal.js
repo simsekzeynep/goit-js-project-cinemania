@@ -62,7 +62,7 @@ function fillModal(movie) {
   vote.textContent = movie.vote_average.toFixed(1);
   votes.textContent = movie.vote_count;
   popularity.textContent = movie.popularity.toFixed(1);
-  genre.textContent = movie.genres.map(item => item.name).join(', ');
+  genre.textContent = movie.genres.map(item => item.name).join(' ');
   overview.textContent = movie.overview;
 
   updateLibraryButton(movie);
