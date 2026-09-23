@@ -1,4 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+@import './fonts.css';
+@import './scroll-top.css';
+@import './loader.css';
+@import './team-modal.css';
+@import './modal.css';
 
 :root {
   font-family: 'Roboto', sans-serif;
@@ -182,6 +186,7 @@ button:focus-visible {
     gap: 32px;
   }
 }
+
 /* Hero — başlangıç görünümü */
 
 .hero {
@@ -216,6 +221,7 @@ button:focus-visible {
   font-size: 32px;
   font-weight: 700;
   line-height: 1.15;
+  overflow-wrap: anywhere;
 }
 
 .hero-description {
@@ -243,6 +249,22 @@ button:focus-visible {
   border-color: #f87719;
   background: #ffffff;
   color: #111111;
+}
+
+/* Dinamik Hero */
+
+.hero-rating {
+  margin: 0 0 20px;
+  color: #ff9500;
+  font-size: 20px;
+  line-height: 1.4;
+}
+
+.hero-description-film {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+  overflow: hidden;
 }
 
 /* Home bölüm aralıkları */
@@ -318,6 +340,7 @@ button:focus-visible {
     font-size: 28px;
   }
 }
+
 /* Footer */
 
 .footer {
@@ -375,6 +398,7 @@ button:focus-visible {
     font-size: 16px;
   }
 }
+
 /* Weekly Trends film kartları */
 
 .weekly-list {
@@ -436,6 +460,7 @@ button:focus-visible {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
+
 /* Upcoming This Month */
 
 .upcoming-card {
@@ -454,8 +479,8 @@ button:focus-visible {
 .upcoming-placeholder {
   display: grid;
   place-items: center;
-  background: #222;
-  color: #fff;
+  background: #222222;
+  color: #ffffff;
 }
 
 .upcoming-content {
@@ -536,23 +561,4 @@ button:focus-visible {
   .upcoming-title {
     font-size: 32px;
   }
-}
-/* Dinamik Hero */
-
-.hero-rating {
-  margin: 0 0 20px;
-  color: #ff9500;
-  font-size: 20px;
-  line-height: 1.4;
-}
-
-.hero-description-film {
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 4;
-  overflow: hidden;
-}
-
-.hero-title {
-  overflow-wrap: anywhere;
 }

@@ -48,6 +48,7 @@ export async function getUpcomingThisMonth() {
 
   return response.data.results;
 }
+
 // Günün trend filmlerini getirir.
 export async function getDailyTrends() {
   const response = await axios.get(`${BASE_URL}/trending/movie/day`, {
@@ -58,4 +59,33 @@ export async function getDailyTrends() {
   });
 
   return response.data.results;
+}
+
+// Bir filmin detaylı bilgilerini getirir.
+export async function getMovieDetails(movieId) {
+  const response = await axios.get(`${BASE_URL}/movie/${movieId}`, {
+    params: {
+      api_key: API_KEY,
+      language: 'en-US',
+    },
+  });
+
+  return response.data;
+}
+
+// YouTube fragmanını getirir. Fragman yoksa undefined döner.
+export async function getMovieTrailer(movieId) {
+  const response = await axios.get(
+    `${BASE_URL}/movie/${movieId}/videos`,
+    {
+      params: {
+        api_key: API_KEY,
+        language: 'en-US',
+      },
+    }
+  );
+
+  return response.data.results.find(
+    video => video.site === 'YouTube' && video.type === 'Trailer'
+  );
 }
