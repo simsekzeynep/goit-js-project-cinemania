@@ -1,5 +1,6 @@
 /* ===== Dialog kabuğu ===== */
 .team-modal {
+  margin: auto;
   padding: 0;
   border: none;
   background: transparent;
