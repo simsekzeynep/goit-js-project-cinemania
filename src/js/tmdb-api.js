@@ -17,16 +17,13 @@ export async function getGenres() {
 
 // Haftanın trend filmlerini getirir
 export async function getTrendingMovies(page = 1) {
-  const response = await axios.get(
-    `${BASE_URL}/trending/movie/week`,
-    {
-      params: {
-        api_key: API_KEY,
-        language: 'en-US',
-        page,
-      },
-    }
-  );
+  const response = await axios.get(`${BASE_URL}/trending/movie/week`, {
+    params: {
+      api_key: API_KEY,
+      language: 'en-US',
+      page,
+    },
+  });
 
   return response.data;
 }
@@ -42,7 +39,7 @@ export async function searchMovies(query, year = '', page = 1) {
   };
 
   if (year) {
-   params.primary_release_year = year;
+    params.primary_release_year = year;
   }
 
   const response = await axios.get(`${BASE_URL}/search/movie`, {
@@ -50,4 +47,36 @@ export async function searchMovies(query, year = '', page = 1) {
   });
 
   return response.data;
+}
+
+// Bir filmin detaylı bilgilerini getirir
+export async function getMovieDetails(movieId) {
+  const response = await axios.get(`${BASE_URL}/movie/${movieId}`, {
+    params: {
+      api_key: API_KEY,
+      language: 'en-US',
+    },
+  });
+
+  return response.data;
+}
+
+// Bir filmin YouTube fragmanını getirir
+// Fragman yoksa undefined döner
+export async function getMovieTrailer(movieId) {
+  const response = await axios.get(
+    `${BASE_URL}/movie/${movieId}/videos`,
+    {
+      params: {
+        api_key: API_KEY,
+        language: 'en-US',
+      },
+    }
+  );
+
+  return response.data.results.find(
+    video =>
+      video.site === 'YouTube' &&
+      video.type === 'Trailer'
+  );
 }
