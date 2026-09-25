@@ -1,5 +1,6 @@
 import { getMovieDetails } from './tmdb-api.js';
 import { showLoader, hideLoader } from './loader.js';
+import { isInLibrary, toggleLibrary } from './library-service.js';
 
 const IMAGE_BASE = 'https://image.tmdb.org/t/p/w500';
 
@@ -26,7 +27,9 @@ if (modal) {
   });
 
   libraryBtn.addEventListener('click', () => {
-    // TASK-21 — Zeynep'in ekle/cikar fonksiyonu buraya gelecek.
+    if (!currentMovie) return;
+
+    toggleLibrary(currentMovie);
     updateLibraryButton(currentMovie);
   });
 }
@@ -66,12 +69,6 @@ function fillModal(movie) {
   overview.textContent = movie.overview;
 
   updateLibraryButton(movie);
-}
-
-// TASK-21 — gecici yer tutucu. Zeynep'in TASK-20 fonksiyonu gelince
-// sadece bu fonksiyonun ici degisecek.
-function isInLibrary(movieId) {
-  return false;
 }
 
 function updateLibraryButton(movie) {
