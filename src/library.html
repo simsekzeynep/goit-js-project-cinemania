@@ -1,12 +1,32 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <script src="../css/library.css"></script>
-</head>
-<body>
-    hello world
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cinemania - My Library</title>
+    <link rel="stylesheet" href="./css/reset.css" />
+    <link rel="stylesheet" href="./css/styles.css" />
+    <link rel="stylesheet" href="./css/library.css" />
+  </head>
+  <body>
+    <load src="./partials/header.html" />
+    <main>
+      <section id="hero" class="hero"></section>
+
+      <section class="library">
+        <div class="custom-select" id="genreSelect">
+          <button class="custom-select__trigger" type="button">
+            <span class="custom-select__title">Genre</span>
+            <span class="custom-select__arrow"></span>
+          </button>
+          <ul class="custom-select__options"></ul>
+        </div>
+        <ul class="library-list" id="libraryMoviesList"></ul>
+      </section>
+    </main>
+    <load src="./partials/footer.html" />
+    <load src="./partials/modal.html" />
+    <load src="./partials/loader.html" />
+    <script type="module" src="./js/library.js"></script>
+  </body>
 </html>
