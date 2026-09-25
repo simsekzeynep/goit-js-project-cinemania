@@ -1,0 +1,603 @@
+/* =========================
+   GENERAL
+========================= */
+
+.catalog-page {
+  margin: 0;
+
+  background-color: #111111;
+  color: #ffffff;
+
+  font-family: 'Roboto', sans-serif;
+}
+
+.catalog-container {
+  width: 100%;
+  max-width: 375px;
+
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* =========================
+   HERO
+========================= */
+
+.catalog-hero {
+  position: relative;
+
+  min-height: 320px;
+
+  padding: 32px 0;
+
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.catalog-hero::before {
+  content: '';
+
+  position: absolute;
+  inset: 0;
+
+  background: linear-gradient(
+    90deg,
+    rgba(17, 17, 17, 0.95) 0%,
+    rgba(17, 17, 17, 0.65) 55%,
+    rgba(17, 17, 17, 0.2) 100%
+  );
+}
+
+.catalog-hero .catalog-container {
+  position: relative;
+  z-index: 1;
+}
+
+.catalog-hero-content {
+  max-width: 280px;
+}
+
+.catalog-hero-content[hidden],
+.catalog-hero-message[hidden] {
+  display: none;
+}
+
+
+.catalog-hero-title {
+  margin: 0 0 12px;
+
+  color: #ffffff;
+
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.catalog-hero-rating {
+  min-height: 18px;
+
+  margin-bottom: 16px;
+
+  color: #f87719;
+}
+
+.catalog-hero-description {
+  margin: 0 0 20px;
+
+  color: #f8f8f8;
+
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.catalog-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+
+  gap: 8px;
+}
+
+.catalog-hero-trailer-btn,
+.catalog-hero-details-btn {
+  min-height: 40px;
+
+  padding: 10px 18px;
+
+  border-radius: 74px;
+
+  font-size: 12px;
+  font-weight: 500;
+
+  cursor: pointer;
+}
+
+.catalog-hero-trailer-btn {
+  border: 1px solid #f87719;
+
+  background-color: #f87719;
+  color: #111111;
+}
+
+.catalog-hero-details-btn {
+  border: 1px solid #ffffff;
+
+  background-color: transparent;
+  color: #ffffff;
+}
+
+.catalog-hero-trailer-btn:hover,
+.catalog-hero-trailer-btn:focus {
+  background-color: #ffffff;
+  color: #f87719;
+}
+
+.catalog-hero-details-btn:hover,
+.catalog-hero-details-btn:focus {
+  border-color: #f87719;
+
+  color: #f87719;
+}
+
+.catalog-hero-message {
+  position: relative;
+  z-index: 1;
+
+  max-width: 300px;
+
+  margin: 0;
+
+  color: #ffffff;
+
+  font-size: 18px;
+  line-height: 1.4;
+}
+
+/* =========================
+   CATALOG
+========================= */
+
+.catalog-section {
+  padding: 20px 0 40px;
+}
+
+/* =========================
+   SEARCH FORM
+========================= */
+
+.catalog-search-form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+
+  margin-bottom: 24px;
+}
+
+.catalog-search-wrapper {
+  position: relative;
+}
+
+/* =========================
+   SEARCH INPUT
+========================= */
+
+.catalog-search-input {
+  width: 150px;
+  height: 40px;
+
+  padding: 0 36px 0 12px;
+
+  border: 1px solid #ffffff;
+  border-radius: 8px;
+
+  background-color: transparent;
+  color: #ffffff;
+
+  font-size: 14px;
+
+  outline: none;
+}
+
+.catalog-search-input::placeholder {
+  color: #b7b7b7;
+}
+
+.catalog-search-input:focus {
+  border-color: #f87719;
+}
+
+/* =========================
+   CLEAR BUTTON
+========================= */
+
+.catalog-clear-btn {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+
+  transform: translateY(-50%);
+
+  padding: 0;
+
+  border: none;
+
+  background-color: transparent;
+  color: #ffffff;
+
+  font-size: 20px;
+  line-height: 1;
+
+  cursor: pointer;
+}
+
+.is-hidden {
+  display: none;
+}
+
+/* =========================
+   YEAR SELECT
+========================= */
+
+.catalog-year-select {
+  width: 72px;
+  height: 40px;
+
+  padding: 0 8px;
+
+  border: 1px solid #ffffff;
+  border-radius: 8px;
+
+  background-color: #111111;
+  color: #ffffff;
+
+  font-size: 14px;
+
+  outline: none;
+  cursor: pointer;
+}
+
+.catalog-year-select:focus {
+  border-color: #f87719;
+}
+
+.catalog-year-select option {
+  background-color: #ffffff;
+  color: #111111;
+}
+
+/* =========================
+   SEARCH BUTTON
+========================= */
+
+.catalog-search-btn {
+  min-width: 48px;
+  height: 40px;
+
+  padding: 0 12px;
+
+  border: none;
+  border-radius: 20px;
+
+  background-color: #f87719;
+  color: #ffffff;
+
+  font-size: 12px;
+  font-weight: 500;
+
+  cursor: pointer;
+
+  transition:
+    background-color 250ms ease,
+    color 250ms ease;
+}
+
+.catalog-search-btn:hover,
+.catalog-search-btn:focus {
+  background-color: #ffffff;
+  color: #f87719;
+}
+
+/* =========================
+   MESSAGE
+========================= */
+
+.catalog-message {
+  max-width: 500px;
+
+  margin: 32px auto;
+
+  color: #ffffff;
+
+  font-size: 14px;
+  line-height: 1.4;
+
+  text-align: center;
+}
+
+/* =========================
+   MOVIE LIST
+========================= */
+
+.catalog-list {
+  display: grid;
+  grid-template-columns: 1fr;
+
+  gap: 16px;
+
+  margin: 0;
+  padding: 0;
+
+  list-style: none;
+}
+
+/* =========================
+   MOVIE CARD
+========================= */
+
+.catalog-card {
+  width: 100%;
+}
+
+.catalog-card-image-wrapper {
+  position: relative;
+
+  overflow: hidden;
+
+  width: 100%;
+
+  aspect-ratio: 2 / 3;
+
+  border-radius: 5px;
+
+  background-color: #1c1c1c;
+}
+
+.catalog-card-image {
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+}
+
+.catalog-card-no-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  height: 100%;
+
+  background-color: #1c1c1c;
+  color: #b7b7b7;
+
+  font-size: 14px;
+  text-align: center;
+}
+
+.catalog-card-overlay {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+
+  gap: 8px;
+
+  padding: 45px 12px 12px;
+
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.95),
+    rgba(0, 0, 0, 0)
+  );
+}
+
+.catalog-card-info {
+  min-width: 0;
+}
+
+.catalog-card-title {
+  margin: 0 0 4px;
+
+  overflow: hidden;
+
+  color: #ffffff;
+
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.2;
+
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+
+  white-space: nowrap;
+}
+
+.catalog-card-meta {
+  margin: 0;
+
+  color: #b7b7b7;
+
+  font-size: 10px;
+  line-height: 1.2;
+}
+
+.catalog-card-rating {
+  flex-shrink: 0;
+
+  margin: 0;
+
+  color: #f87719;
+
+  font-size: 12px;
+  font-weight: 500;
+}
+
+/* =========================
+   PAGINATION
+========================= */
+
+.catalog-pagination {
+  display: flex;
+  flex-wrap: wrap;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+
+  margin-top: 32px;
+}
+
+.catalog-pagination button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 32px;
+  height: 32px;
+
+  padding: 0 8px;
+
+  border: 1px solid #ffffff;
+  border-radius: 50%;
+
+  background-color: transparent;
+  color: #ffffff;
+
+  cursor: pointer;
+}
+
+.catalog-pagination button:hover,
+.catalog-pagination button:focus,
+.catalog-pagination button.is-active {
+  border-color: #f87719;
+
+  background-color: #f87719;
+  color: #ffffff;
+}
+
+/* =========================
+   TABLET
+========================= */
+
+@media screen and (min-width: 768px) {
+  .catalog-container {
+    max-width: 768px;
+
+    padding: 0 32px;
+  }
+
+  .catalog-hero {
+  min-height: 360px;
+  padding: 56px 0;
+  }
+
+  .catalog-hero-content {
+    max-width: 400px;
+  }
+
+  .catalog-hero-title {
+    font-size: 44px;
+  }
+
+  .catalog-hero-description {
+    font-size: 16px;
+  }
+
+  .catalog-section {
+    padding: 32px 0 60px;
+  }
+
+  .catalog-search-form {
+    gap: 12px;
+
+    margin-bottom: 32px;
+  }
+
+  .catalog-search-input {
+    width: 190px;
+  }
+
+  .catalog-year-select {
+    width: 95px;
+  }
+
+  .catalog-search-btn {
+    min-width: 64px;
+  }
+
+  .catalog-list {
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 24px 16px;
+  }
+
+  .catalog-card-title {
+    font-size: 14px;
+  }
+
+  .catalog-card-meta,
+  .catalog-card-rating {
+    font-size: 12px;
+  }
+
+  .catalog-pagination {
+    margin-top: 40px;
+  }
+}
+
+/* =========================
+   DESKTOP
+========================= */
+
+@media screen and (min-width: 1280px) {
+  .catalog-container {
+    max-width: 1280px;
+
+    padding: 0 32px;
+  }
+
+  .catalog-hero {
+    min-height: 500px;
+
+    padding: 80px 0;
+  }
+
+  .catalog-hero-content {
+    max-width: 500px;
+  }
+
+  .catalog-hero-title {
+    font-size: 64px;
+  }
+
+  .catalog-section {
+    padding: 40px 0 80px;
+  }
+
+  .catalog-search-input {
+    width: 220px;
+  }
+
+  .catalog-year-select {
+    width: 110px;
+  }
+
+  .catalog-list {
+    grid-template-columns: repeat(4, 1fr);
+
+    gap: 32px 16px;
+  }
+
+  .catalog-pagination {
+    margin-top: 48px;
+  }
+}

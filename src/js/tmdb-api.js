@@ -1,9 +1,9 @@
 import axios from 'axios';
-// API İstekleri için Temel Sabitler
+
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 const BASE_URL = 'https://api.themoviedb.org/3';
 
-//TMDB API'den film türlerini getirir.
+// Film türlerini getirir
 export async function getGenres() {
   const response = await axios.get(`${BASE_URL}/genre/movie/list`, {
     params: {
@@ -11,10 +11,45 @@ export async function getGenres() {
       language: 'en',
     },
   });
+
   return response.data.genres;
 }
 
-// Bir filmin detaylı bilgilerini getirir.
+// Haftanın trend filmlerini getirir
+export async function getTrendingMovies(page = 1) {
+  const response = await axios.get(`${BASE_URL}/trending/movie/week`, {
+    params: {
+      api_key: API_KEY,
+      language: 'en-US',
+      page,
+    },
+  });
+
+  return response.data;
+}
+
+// Anahtar kelime ve yıla göre film arar
+export async function searchMovies(query, year = '', page = 1) {
+  const params = {
+    api_key: API_KEY,
+    query,
+    page,
+    language: 'en-US',
+    include_adult: false,
+  };
+
+  if (year) {
+    params.primary_release_year = year;
+  }
+
+  const response = await axios.get(`${BASE_URL}/search/movie`, {
+    params,
+  });
+
+  return response.data;
+}
+
+// Bir filmin detaylı bilgilerini getirir
 export async function getMovieDetails(movieId) {
   const response = await axios.get(`${BASE_URL}/movie/${movieId}`, {
     params: {
@@ -26,16 +61,22 @@ export async function getMovieDetails(movieId) {
   return response.data;
 }
 
-// Bir filmin YouTube fragmanını getirir. Fragman yoksa undefined döner.
+// Bir filmin YouTube fragmanını getirir
+// Fragman yoksa undefined döner
 export async function getMovieTrailer(movieId) {
-  const response = await axios.get(`${BASE_URL}/movie/${movieId}/videos`, {
-    params: {
-      api_key: API_KEY,
-      language: 'en-US',
-    },
-  });
+  const response = await axios.get(
+    `${BASE_URL}/movie/${movieId}/videos`,
+    {
+      params: {
+        api_key: API_KEY,
+        language: 'en-US',
+      },
+    }
+  );
 
   return response.data.results.find(
-    video => video.site === 'YouTube' && video.type === 'Trailer'
+    video =>
+      video.site === 'YouTube' &&
+      video.type === 'Trailer'
   );
 }
