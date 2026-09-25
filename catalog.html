@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Cinemania — Catalog</title>
+
+    <script type="module" crossorigin src="/vanilla-app-template/catalog.js"></script>
+    <link rel="modulepreload" crossorigin href="/vanilla-app-template/assets/styles-gd6xVleH.js">
+    <link rel="modulepreload" crossorigin href="/vanilla-app-template/assets/main-2qJmFDgw.js">
+    <link rel="modulepreload" crossorigin href="/vanilla-app-template/assets/vendor-D5rSzIS2.js">
+    <link rel="modulepreload" crossorigin href="/vanilla-app-template/assets/tmdb-api-CbsiljfK.js">
+    <link rel="stylesheet" crossorigin href="/vanilla-app-template/assets/styles-BRgK0tHl.css">
+    <link rel="stylesheet" crossorigin href="/vanilla-app-template/assets/catalog-Dcctxig4.css">
+  </head>
+
+  <body class="catalog-page">
+    
+
+    <main>
+      <!-- HERO -->
+      <section class="catalog-hero" id="catalogHero">
+        <div class="catalog-container">
+          <div
+            class="catalog-hero-content"
+            id="catalogHeroContent"
+            hidden
+          >
+            <h1
+              class="catalog-hero-title"
+              id="catalogHeroTitle"
+            ></h1>
+
+            <div
+              class="catalog-hero-rating"
+              id="catalogHeroRating"
+            ></div>
+
+            <p
+              class="catalog-hero-description"
+              id="catalogHeroDescription"
+            ></p>
+
+            <div class="catalog-hero-actions">
+              <button
+                class="catalog-hero-trailer-btn"
+                id="catalogHeroTrailerBtn"
+                type="button"
+              >
+                Watch trailer
+              </button>
+
+              <button
+                class="catalog-hero-details-btn"
+                id="catalogHeroDetailsBtn"
+                type="button"
+              >
+                More details
+              </button>
+            </div>
+          </div>
+
+          <p
+            class="catalog-hero-message"
+            id="catalogHeroMessage"
+            hidden
+          ></p>
+        </div>
+      </section>
+
+      <!-- CATALOG -->
+      <section class="catalog-section">
+        <div class="catalog-container">
+          <!-- SEARCH FORM -->
+          <form
+            class="catalog-search-form"
+            id="catalogSearchForm"
+          >
+            <div class="catalog-search-wrapper">
+              <input
+                class="catalog-search-input"
+                id="catalogSearchInput"
+                type="text"
+                name="query"
+                placeholder="Search"
+                autocomplete="off"
+                aria-label="Search movie"
+              />
+
+              <button
+                class="catalog-clear-btn is-hidden"
+                id="catalogClearBtn"
+                type="button"
+                aria-label="Clear search"
+              >
+                ×
+              </button>
+            </div>
+
+            <!-- YEAR SELECT -->
+            <select
+              class="catalog-year-select"
+              id="catalogYearSelect"
+              name="year"
+              aria-label="Select year"
+            >
+              <option value="">Year</option>
+            </select>
+
+            <!-- SEARCH BUTTON -->
+            <button
+              class="catalog-search-btn"
+              type="submit"
+              aria-label="Search movies"
+            >
+              Search
+            </button>
+          </form>
+
+          <!-- MESSAGE -->
+          <p
+            class="catalog-message"
+            id="catalogMessage"
+            hidden
+          ></p>
+
+          <!-- MOVIE LIST -->
+          <ul
+            class="catalog-list"
+            id="catalogList"
+          ></ul>
+
+          <!-- PAGINATION -->
+          <div
+            class="catalog-pagination"
+            id="catalogPagination"
+            aria-label="Movie pagination"
+          ></div>
+        </div>
+      </section>
+    </main>
+
+    <!-- COMMON PARTIALS -->
+    
+    <dialog id="movie-modal" class="movie-modal">
+  <div class="movie-modal__box">
+    <button type="button" class="movie-modal__close" aria-label="Close">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+        <path
+          d="M18 6L6 18M6 6l12 12"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+        />
+      </svg>
+    </button>
+
+    <img class="movie-modal__poster" id="movie-poster" alt="" />
+
+    <div class="movie-modal__content">
+      <h2 class="movie-modal__title" id="movie-title"></h2>
+
+      <ul class="movie-info">
+        <li class="movie-info__row">
+          <span class="movie-info__label">Vote / Votes</span>
+          <span class="movie-info__value">
+            <span class="movie-info__badge" id="movie-vote"></span>
+            <span class="movie-info__slash">/</span>
+            <span class="movie-info__badge" id="movie-votes"></span>
+          </span>
+        </li>
+        <li class="movie-info__row">
+          <span class="movie-info__label">Popularity</span>
+          <span class="movie-info__value" id="movie-popularity"></span>
+        </li>
+        <li class="movie-info__row">
+          <span class="movie-info__label">Genre</span>
+          <span class="movie-info__value" id="movie-genre"></span>
+        </li>
+      </ul>
+
+      <h3 class="movie-modal__about">ABOUT</h3>
+      <p class="movie-modal__overview" id="movie-overview"></p>
+
+      <button type="button" class="movie-modal__library-btn" id="library-btn">
+        Add to my library
+      </button>
+    </div>
+  </div>
+</dialog>
+
+    <div
+  class="loader-overlay"
+  id="loader"
+  role="status"
+  aria-label="Loading"
+  hidden
+>
+  <span class="loader-spinner"></span>
+</div>
+
+    <button
+  type="button"
+  id="scroll-top-btn"
+  class="scroll-top-btn"
+  aria-label="Scroll to top"
+>
+  <svg
+    width="20"
+    height="20"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M12 19V5M12 5L5 12M12 5L19 12"
+      stroke="currentColor"
+      stroke-width="2.5"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+  </svg>
+</button>
+
+
+    <!-- SCRIPTS -->
+  </body>
+</html>
