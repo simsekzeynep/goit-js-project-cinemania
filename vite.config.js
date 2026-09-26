@@ -15,14 +15,17 @@ export default defineConfig(({ command }) => {
 
     build: {
       sourcemap: true,
+
       rollupOptions: {
         input: glob.sync('./src/*.html'),
+
         output: {
           manualChunks(id) {
             if (id.includes('node_modules')) {
               return 'vendor';
             }
           },
+
           entryFileNames: chunkInfo => {
             if (chunkInfo.name === 'commonHelpers') {
               return 'commonHelpers.js';
@@ -30,6 +33,7 @@ export default defineConfig(({ command }) => {
 
             return '[name].js';
           },
+
           assetFileNames: assetInfo => {
             if (assetInfo.name && assetInfo.name.endsWith('.html')) {
               return '[name].[ext]';

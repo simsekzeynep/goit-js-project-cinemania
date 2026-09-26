@@ -1,5 +1,9 @@
 import { getMovieDetails } from './tmdb-api.js';
 import { showLoader, hideLoader } from './loader.js';
+import {
+  isInLibrary,
+  toggleLibrary,
+} from './library-service.js';
 
 const IMAGE_BASE = 'https://image.tmdb.org/t/p/w500';
 
@@ -14,70 +18,134 @@ const genre = document.querySelector('#movie-genre');
 const overview = document.querySelector('#movie-overview');
 const libraryBtn = document.querySelector('#library-btn');
 
-let currentMovie = null;
+const status = document.createElement('p');
+status.className = 'movie-modal-status';
+status.setAttribute('role', 'status');
+status.hidden = true;
 
-// Dinleyiciler modul yuklenirken bir kez baglaniyor, modal her acildiginda
-// degil. Boylece tekrar tekrar acilip kapandiginda listener birikmiyor.
-if (modal) {
-  closeBtn.addEventListener('click', () => modal.close());
+let currentMovie = null;
+let isLoading = false;
+
+function showStatus(message = '') {
+  status.textContent = message;
+  status.hidden = !message;
+}
+
+if (modal && libraryBtn) {
+  libraryBtn.after(status);
+
+  closeBtn?.addEventListener('click', () => modal.close());
 
   modal.addEventListener('click', event => {
-    if (event.target === modal) modal.close();
+    const bounds = modal.getBoundingClientRect();
+    const isOutside =
+      event.clientX < bounds.left ||
+      event.clientX > bounds.right ||
+      event.clientY < bounds.top ||
+      event.clientY > bounds.bottom;
+
+    if (event.target === modal && isOutside) {
+      modal.close();
+    }
   });
 
   libraryBtn.addEventListener('click', () => {
-    // TASK-21 — Zeynep'in ekle/cikar fonksiyonu buraya gelecek.
-    updateLibraryButton(currentMovie);
+    if (!currentMovie) return;
+
+    try {
+      toggleLibrary(currentMovie);
+      updateLibraryButton(currentMovie);
+
+      showStatus(
+        isInLibrary(currentMovie.id)
+          ? 'Movie added to your library.'
+          : 'Movie removed from your library.'
+      );
+    } catch {
+      showStatus(
+        'Could not update your library. Please try again.'
+      );
+    }
   });
 }
 
-// Film detay modal'ini acar. Kart tiklamalarindan ve hero'daki
-// "More details" dugmesinden cagrilir.
 export async function openMovieModal(movieId) {
+  if (!modal || !libraryBtn || isLoading || modal.open) return;
+
+  isLoading = true;
   showLoader();
 
   try {
     const movie = await getMovieDetails(movieId);
     fillModal(movie);
     modal.showModal();
-  } catch (error) {
-    console.error('Film detaylari alinamadi:', error);
+  } catch {
+    currentMovie = null;
+    title.textContent = 'Movie details unavailable';
+    poster.hidden = true;
+    poster.removeAttribute('src');
+    vote.textContent = '—';
+    votes.textContent = '—';
+    popularity.textContent = '—';
+    genre.textContent = '—';
+    overview.textContent =
+      'Movie details could not be loaded. Please try again later.';
+    libraryBtn.hidden = true;
+    showStatus();
+
+    if (!modal.open) {
+      modal.showModal();
+    }
   } finally {
+    isLoading = false;
     hideLoader();
   }
 }
 
 function fillModal(movie) {
   currentMovie = movie;
+  showStatus();
 
   if (movie.poster_path) {
     poster.src = `${IMAGE_BASE}${movie.poster_path}`;
     poster.hidden = false;
   } else {
+    poster.removeAttribute('src');
     poster.hidden = true;
   }
-  poster.alt = movie.title;
 
-  title.textContent = movie.title;
-  vote.textContent = movie.vote_average.toFixed(1);
-  votes.textContent = movie.vote_count;
-  popularity.textContent = movie.popularity.toFixed(1);
-  genre.textContent = movie.genres.map(item => item.name).join(' ');
-  overview.textContent = movie.overview;
+  poster.alt = movie.title || 'Movie poster';
+  title.textContent = movie.title || 'Untitled movie';
+  vote.textContent = Number(movie.vote_average || 0).toFixed(1);
+  votes.textContent = movie.vote_count ?? 0;
+  popularity.textContent = Number(movie.popularity || 0).toFixed(1);
+  genre.textContent =
+    (movie.genres || []).map(item => item.name).join(', ') ||
+    'Unknown';
+  overview.textContent =
+    movie.overview || 'No description available.';
 
-  updateLibraryButton(movie);
-}
+  libraryBtn.hidden = false;
+  libraryBtn.disabled = false;
 
-// TASK-21 — gecici yer tutucu. Zeynep'in TASK-20 fonksiyonu gelince
-// sadece bu fonksiyonun ici degisecek.
-function isInLibrary(movieId) {
-  return false;
+  try {
+    updateLibraryButton(movie);
+  } catch {
+    libraryBtn.textContent = 'Library unavailable';
+    libraryBtn.disabled = true;
+    libraryBtn.removeAttribute('aria-pressed');
+    showStatus('Your library could not be read.');
+  }
 }
 
 function updateLibraryButton(movie) {
   if (!movie) return;
 
-  libraryBtn.textContent = isInLibrary(movie.id)
+  const saved = isInLibrary(movie.id);
+
+  libraryBtn.textContent = saved
     ? 'Remove from my library'
     : 'Add to my library';
+
+  libraryBtn.setAttribute('aria-pressed', String(saved));
 }

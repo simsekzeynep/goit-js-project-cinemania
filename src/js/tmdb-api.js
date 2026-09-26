@@ -3,19 +3,19 @@ import axios from 'axios';
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 const BASE_URL = 'https://api.themoviedb.org/3';
 
-// Film türlerini getirir
+// Film türlerini getirir.
 export async function getGenres() {
   const response = await axios.get(`${BASE_URL}/genre/movie/list`, {
     params: {
       api_key: API_KEY,
-      language: 'en',
+      language: 'en-US',
     },
   });
 
   return response.data.genres;
 }
 
-// Haftanın trend filmlerini getirir
+// Catalog için haftalık trendleri sayfalama bilgileriyle getirir.
 export async function getTrendingMovies(page = 1) {
   const response = await axios.get(`${BASE_URL}/trending/movie/week`, {
     params: {
@@ -28,7 +28,48 @@ export async function getTrendingMovies(page = 1) {
   return response.data;
 }
 
-// Anahtar kelime ve yıla göre film arar
+// Home için haftalık trendlerin film listesini getirir.
+export async function getWeeklyTrends() {
+  const data = await getTrendingMovies();
+
+  return data.results;
+}
+
+// İçinde bulunduğumuz ayın filmlerini getirir.
+export async function getUpcomingThisMonth() {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const lastDay = new Date(year, now.getMonth() + 1, 0).getDate();
+
+  const response = await axios.get(`${BASE_URL}/discover/movie`, {
+    params: {
+      api_key: API_KEY,
+      language: 'en-US',
+      include_adult: false,
+      include_video: false,
+      sort_by: 'popularity.desc',
+      'primary_release_date.gte': `${year}-${month}-01`,
+      'primary_release_date.lte': `${year}-${month}-${lastDay}`,
+    },
+  });
+
+  return response.data.results;
+}
+
+// Günün trend filmlerini getirir.
+export async function getDailyTrends() {
+  const response = await axios.get(`${BASE_URL}/trending/movie/day`, {
+    params: {
+      api_key: API_KEY,
+      language: 'en-US',
+    },
+  });
+
+  return response.data.results;
+}
+
+// Catalog için anahtar kelime ve yıla göre film arar.
 export async function searchMovies(query, year = '', page = 1) {
   const params = {
     api_key: API_KEY,
@@ -49,7 +90,7 @@ export async function searchMovies(query, year = '', page = 1) {
   return response.data;
 }
 
-// Bir filmin detaylı bilgilerini getirir
+// Bir filmin detaylı bilgilerini getirir.
 export async function getMovieDetails(movieId) {
   const response = await axios.get(`${BASE_URL}/movie/${movieId}`, {
     params: {
@@ -61,22 +102,16 @@ export async function getMovieDetails(movieId) {
   return response.data;
 }
 
-// Bir filmin YouTube fragmanını getirir
-// Fragman yoksa undefined döner
+// YouTube fragmanını getirir. Bulunamazsa undefined döner.
 export async function getMovieTrailer(movieId) {
-  const response = await axios.get(
-    `${BASE_URL}/movie/${movieId}/videos`,
-    {
-      params: {
-        api_key: API_KEY,
-        language: 'en-US',
-      },
-    }
-  );
+  const response = await axios.get(`${BASE_URL}/movie/${movieId}/videos`, {
+    params: {
+      api_key: API_KEY,
+      language: 'en-US',
+    },
+  });
 
   return response.data.results.find(
-    video =>
-      video.site === 'YouTube' &&
-      video.type === 'Trailer'
+    video => video.site === 'YouTube' && video.type === 'Trailer'
   );
 }
