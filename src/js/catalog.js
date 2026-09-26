@@ -10,6 +10,8 @@ import { showLoader, hideLoader } from './loader.js';
 const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500';
 const BACKDROP_BASE_URL = 'https://image.tmdb.org/t/p/original';
 
+const FIRST_MOVIE_YEAR = 1900;
+
 // =========================
 // DOM
 // =========================
@@ -42,11 +44,8 @@ const heroDetailsButton = document.querySelector(
 
 let genres = [];
 let currentPage = 1;
-let totalPages = 0;
-
 let currentQuery = '';
 let currentYear = '';
-
 let heroMovieId = null;
 
 // =========================
@@ -55,11 +54,10 @@ let heroMovieId = null;
 
 function createYearOptions() {
   const currentYearValue = new Date().getFullYear();
-  const firstYear = 1900;
 
   for (
     let year = currentYearValue;
-    year >= firstYear;
+    year >= FIRST_MOVIE_YEAR;
     year -= 1
   ) {
     const option = document.createElement('option');
@@ -72,7 +70,7 @@ function createYearOptions() {
 }
 
 // =========================
-// CLEAR BUTTON
+// SEARCH HELPERS
 // =========================
 
 function updateClearButton() {
@@ -84,25 +82,27 @@ function updateClearButton() {
   );
 }
 
+function handleClearSearch() {
+  searchInput.value = '';
+  clearButton.classList.add('is-hidden');
+  searchInput.focus();
+}
+
 // =========================
-// GENRES
+// MOVIE HELPERS
 // =========================
 
 function getGenreNames(genreIds = []) {
   return genreIds
-    .map(
-      id =>
-        genres.find(genre => genre.id === id)
-          ?.name
-    )
+    .map(id => {
+      return genres.find(
+        genre => genre.id === id
+      )?.name;
+    })
     .filter(Boolean)
     .slice(0, 2)
     .join(', ');
 }
-
-// =========================
-// MOVIE YEAR
-// =========================
 
 function getMovieYear(releaseDate) {
   if (!releaseDate) {
@@ -110,6 +110,12 @@ function getMovieYear(releaseDate) {
   }
 
   return releaseDate.slice(0, 4);
+}
+
+function getMovieRating(voteAverage) {
+  return typeof voteAverage === 'number'
+    ? voteAverage.toFixed(1)
+    : '0.0';
 }
 
 // =========================
@@ -121,11 +127,10 @@ function renderHero(movie) {
     heroMovieId = null;
 
     catalogHeroContent.hidden = true;
+    catalogHeroMessage.hidden = false;
 
     catalogHeroMessage.textContent =
       'We are sorry, but we could not find a movie for today.';
-
-    catalogHeroMessage.hidden = false;
 
     catalogHero.style.backgroundImage = 'none';
 
@@ -144,27 +149,17 @@ function renderHero(movie) {
     movie.overview ||
     'No description available.';
 
-  const rating =
-    typeof movie.vote_average === 'number'
-      ? movie.vote_average.toFixed(1)
-      : '0.0';
+  catalogHeroRating.textContent =
+    `★ ${getMovieRating(movie.vote_average)}`;
 
-  catalogHeroRating.textContent = `★ ${rating}`;
-
-  if (movie.backdrop_path) {
-    catalogHero.style.backgroundImage =
-      `url("${BACKDROP_BASE_URL}${movie.backdrop_path}")`;
-  } else {
-    catalogHero.style.backgroundImage = 'none';
-  }
+  catalogHero.style.backgroundImage =
+    movie.backdrop_path
+      ? `url("${BACKDROP_BASE_URL}${movie.backdrop_path}")`
+      : 'none';
 }
 
-// =========================
-// DAILY MOVIE
-// =========================
-
 function getDailyMovie(movies) {
-  if (!movies || movies.length === 0) {
+  if (!movies?.length) {
     return null;
   }
 
@@ -195,23 +190,25 @@ function createMovieCard(movie) {
     ? `${IMAGE_BASE_URL}${movie.poster_path}`
     : '';
 
-  const movieGenres = getGenreNames(
-    movie.genre_ids
-  );
+  const movieGenres =
+    getGenreNames(movie.genre_ids);
 
-  const movieYear = getMovieYear(
-    movie.release_date
-  );
+  const movieYear =
+    getMovieYear(movie.release_date);
 
   const rating =
-    typeof movie.vote_average === 'number'
-      ? movie.vote_average.toFixed(1)
-      : '0.0';
+    getMovieRating(movie.vote_average);
+
+  const titleId =
+    `catalog-movie-title-${movie.id}`;
 
   return `
     <li
       class="catalog-card"
       data-id="${movie.id}"
+      tabindex="0"
+      role="button"
+      aria-labelledby="${titleId}"
     >
       <div class="catalog-card-image-wrapper">
 
@@ -236,14 +233,15 @@ function createMovieCard(movie) {
 
           <div class="catalog-card-info">
 
-            <h2 class="catalog-card-title">
+            <h2
+              class="catalog-card-title"
+              id="${titleId}"
+            >
               ${movie.title}
             </h2>
 
             <p class="catalog-card-meta">
-              ${
-                movieGenres || 'Unknown'
-              } | ${movieYear}
+              ${movieGenres || 'Unknown'} | ${movieYear}
             </p>
 
           </div>
@@ -259,18 +257,22 @@ function createMovieCard(movie) {
 }
 
 // =========================
-// RENDER MOVIES
+// RENDER
 // =========================
 
+function showCatalogMessage(message) {
+  catalogList.innerHTML = '';
+  catalogPagination.innerHTML = '';
+
+  catalogMessage.textContent = message;
+  catalogMessage.hidden = false;
+}
+
 function renderMovies(movies) {
-  if (!movies || movies.length === 0) {
-    catalogList.innerHTML = '';
-    catalogPagination.innerHTML = '';
-
-    catalogMessage.textContent =
-      'We are sorry, but we could not find any results.';
-
-    catalogMessage.hidden = false;
+  if (!movies?.length) {
+    showCatalogMessage(
+      'We are sorry, but we could not find any results.'
+    );
 
     return;
   }
@@ -278,7 +280,7 @@ function renderMovies(movies) {
   catalogMessage.hidden = true;
 
   catalogList.innerHTML = movies
-    .map(movie => createMovieCard(movie))
+    .map(createMovieCard)
     .join('');
 }
 
@@ -301,9 +303,8 @@ function createPageButton(page) {
   return button;
 }
 
-function renderPagination(page, pages) {
+function renderPagination(page, totalPages) {
   currentPage = page;
-  totalPages = pages;
 
   catalogPagination.innerHTML = '';
 
@@ -333,59 +334,18 @@ function renderPagination(page, pages) {
 }
 
 // =========================
-// TRENDING MOVIES
+// API REQUESTS
 // =========================
 
-async function loadTrendingMovies(page = 1) {
-  showLoader();
-
-  try {
-    const data =
-      await getTrendingMovies(page);
-
-    renderMovies(data.results);
-
-    renderPagination(
-      data.page,
-      data.total_pages
-    );
-
-    if (page === 1) {
-      const dailyMovie =
-        getDailyMovie(data.results);
-
-      renderHero(dailyMovie);
-    }
-  } catch (error) {
-    catalogList.innerHTML = '';
-    catalogPagination.innerHTML = '';
-
-    catalogMessage.textContent =
-      'Something went wrong while loading movies.';
-
-    catalogMessage.hidden = false;
-  } finally {
-    hideLoader();
-  }
-}
-
-// =========================
-// SEARCH MOVIES
-// =========================
-
-async function loadSearchResults(
-  query,
-  year,
-  page = 1
+async function fetchAndRenderMovies(
+  request,
+  errorMessage,
+  options = {}
 ) {
   showLoader();
 
   try {
-    const data = await searchMovies(
-      query,
-      year,
-      page
-    );
+    const data = await request();
 
     renderMovies(data.results);
 
@@ -393,164 +353,229 @@ async function loadSearchResults(
       data.page,
       data.total_pages
     );
+
+    if (options.updateHero) {
+      renderHero(
+        getDailyMovie(data.results)
+      );
+    }
   } catch (error) {
-    catalogList.innerHTML = '';
-    catalogPagination.innerHTML = '';
+    console.error(error);
 
-    catalogMessage.textContent =
-      'Something went wrong while searching movies.';
-
-    catalogMessage.hidden = false;
+    showCatalogMessage(errorMessage);
   } finally {
     hideLoader();
   }
 }
 
-// =========================
-// SEARCH INPUT
-// =========================
-
-searchInput.addEventListener(
-  'input',
-  updateClearButton
-);
-
-// =========================
-// CLEAR BUTTON
-// =========================
-
-clearButton.addEventListener(
-  'click',
-  () => {
-    searchInput.value = '';
-
-    clearButton.classList.add(
-      'is-hidden'
-    );
-
-    searchInput.focus();
-  }
-);
-
-// =========================
-// SEARCH FORM
-// =========================
-
-searchForm.addEventListener(
-  'submit',
-  async event => {
-    event.preventDefault();
-
-    currentQuery =
-      searchInput.value.trim();
-
-    currentYear =
-      yearSelect.value;
-
-    currentPage = 1;
-
-    if (!currentQuery) {
-      await loadTrendingMovies(1);
-      return;
+function loadTrendingMovies(page = 1) {
+  return fetchAndRenderMovies(
+    () => getTrendingMovies(page),
+    'Something went wrong while loading movies.',
+    {
+      updateHero: page === 1,
     }
+  );
+}
 
+function loadSearchResults(
+  query,
+  year,
+  page = 1
+) {
+  return fetchAndRenderMovies(
+    () => searchMovies(
+      query,
+      year,
+      page
+    ),
+    'Something went wrong while searching movies.'
+  );
+}
+
+// =========================
+// MOVIE MODAL
+// =========================
+
+function openCardModal(card) {
+  if (!card) {
+    return;
+  }
+
+  const movieId = Number(
+    card.dataset.id
+  );
+
+  openMovieModal(movieId);
+}
+
+function handleCatalogClick(event) {
+  const card = event.target.closest(
+    '.catalog-card'
+  );
+
+  openCardModal(card);
+}
+
+function handleCatalogKeydown(event) {
+  const card = event.target.closest(
+    '.catalog-card'
+  );
+
+  if (!card) {
+    return;
+  }
+
+  const isActivationKey =
+    event.key === 'Enter' ||
+    event.key === ' ';
+
+  if (!isActivationKey) {
+    return;
+  }
+
+  event.preventDefault();
+
+  openCardModal(card);
+}
+
+// =========================
+// SEARCH
+// =========================
+
+async function handleSearchSubmit(event) {
+  event.preventDefault();
+
+  currentQuery =
+    searchInput.value.trim();
+
+  currentYear =
+    yearSelect.value;
+
+  currentPage = 1;
+
+  if (!currentQuery) {
+    await loadTrendingMovies(1);
+    return;
+  }
+
+  await loadSearchResults(
+    currentQuery,
+    currentYear,
+    currentPage
+  );
+}
+
+// =========================
+// HERO DETAILS
+// =========================
+
+function handleHeroDetailsClick() {
+  if (!heroMovieId) {
+    return;
+  }
+
+  openMovieModal(heroMovieId);
+}
+
+// =========================
+// PAGINATION
+// =========================
+
+async function handlePaginationClick(event) {
+  const button =
+    event.target.closest('button');
+
+  if (!button) {
+    return;
+  }
+
+  currentPage = Number(
+    button.dataset.page
+  );
+
+  if (currentQuery) {
     await loadSearchResults(
       currentQuery,
       currentYear,
       currentPage
     );
+  } else {
+    await loadTrendingMovies(
+      currentPage
+    );
   }
-);
+
+  window.scrollTo({
+    top: catalogHero.offsetHeight,
+    behavior: 'smooth',
+  });
+}
 
 // =========================
-// MOVIE CARD MODAL
+// EVENTS
 // =========================
 
-catalogList.addEventListener(
-  'click',
-  event => {
-    const card = event.target.closest(
-      '.catalog-card'
+function addEventListeners() {
+  searchInput.addEventListener(
+    'input',
+    updateClearButton
+  );
+
+  clearButton.addEventListener(
+    'click',
+    handleClearSearch
+  );
+
+  searchForm.addEventListener(
+    'submit',
+    handleSearchSubmit
+  );
+
+  catalogList.addEventListener(
+    'click',
+    handleCatalogClick
+  );
+
+  catalogList.addEventListener(
+    'keydown',
+    handleCatalogKeydown
+  );
+
+  heroDetailsButton.addEventListener(
+    'click',
+    handleHeroDetailsClick
+  );
+
+  catalogPagination.addEventListener(
+    'click',
+    handlePaginationClick
+  );
+}
+
+// =========================
+// INIT
+// =========================
+
+async function loadGenres() {
+  try {
+    genres = await getGenres();
+  } catch (error) {
+    console.error(
+      'Genres could not be loaded:',
+      error
     );
 
-    if (!card) {
-      return;
-    }
-
-    const movieId = Number(
-      card.dataset.id
-    );
-
-    openMovieModal(movieId);
+    genres = [];
   }
-);
-
-// =========================
-// HERO DETAILS MODAL
-// =========================
-
-heroDetailsButton.addEventListener(
-  'click',
-  () => {
-    if (!heroMovieId) {
-      return;
-    }
-
-    openMovieModal(heroMovieId);
-  }
-);
-
-// =========================
-// PAGINATION CLICK
-// =========================
-
-catalogPagination.addEventListener(
-  'click',
-  async event => {
-    const button =
-      event.target.closest('button');
-
-    if (!button) {
-      return;
-    }
-
-    currentPage = Number(
-      button.dataset.page
-    );
-
-    if (currentQuery) {
-      await loadSearchResults(
-        currentQuery,
-        currentYear,
-        currentPage
-      );
-    } else {
-      await loadTrendingMovies(
-        currentPage
-      );
-    }
-
-    window.scrollTo({
-      top: catalogHero.offsetHeight,
-      behavior: 'smooth',
-    });
-  }
-);
-
-// =========================
-// START
-// =========================
+}
 
 async function initCatalog() {
   createYearOptions();
   updateClearButton();
+  addEventListeners();
 
-  try {
-    genres = await getGenres();
-  } catch (error) {
-    genres = [];
-  }
-
+  await loadGenres();
   await loadTrendingMovies();
 }
 
