@@ -28,25 +28,28 @@ async function loadHero() {
     const imageUrl =
       `https://image.tmdb.org/t/p/original${movie.backdrop_path}`;
 
-    // Görsel yüklenmeden varsayılan görünümü değiştirme.
-    // Görsel uzun süre yanıt vermezse loader açık kalmasın.
+    // Görsel hazır olana kadar varsayılan görünümü koru.
     await new Promise((resolve, reject) => {
       const image = new Image();
 
       const timeoutId = window.setTimeout(() => {
         image.onload = null;
         image.onerror = null;
-        reject(new Error('Hero görseli zamanında yüklenemedi.'));
+        reject(new Error('Hero image loading timed out.'));
       }, 15000);
 
       image.onload = () => {
         window.clearTimeout(timeoutId);
+        image.onload = null;
+        image.onerror = null;
         resolve();
       };
 
       image.onerror = () => {
         window.clearTimeout(timeoutId);
-        reject(new Error('Hero görseli yüklenemedi.'));
+        image.onload = null;
+        image.onerror = null;
+        reject(new Error('Hero image could not be loaded.'));
       };
 
       image.src = imageUrl;
@@ -78,6 +81,16 @@ async function loadHero() {
     const defaultButton = hero.querySelector('a.hero-button');
     if (defaultButton) defaultButton.hidden = true;
 
+    const status = document.createElement('p');
+    status.className = 'hero-status';
+    status.setAttribute('role', 'status');
+    status.hidden = true;
+
+    function showStatus(message = '') {
+      status.textContent = message;
+      status.hidden = !message;
+    }
+
     // Film detayları butonu
     const detailsButton = document.createElement('button');
     detailsButton.type = 'button';
@@ -92,13 +105,13 @@ async function loadHero() {
 
       isOpening = true;
       detailsButton.setAttribute('aria-disabled', 'true');
+      showStatus();
 
       try {
         await openMovieModal(movie.id);
-      } catch (error) {
-        console.warn(
-          'Film detay penceresi açılamadı:',
-          error.response?.status || error.message
+      } catch {
+        showStatus(
+          'Movie details could not be opened. Please try again.'
         );
       } finally {
         isOpening = false;
@@ -113,20 +126,34 @@ async function loadHero() {
     trailerButton.textContent = 'Watch trailer';
     trailerButton.setAttribute('aria-haspopup', 'dialog');
 
-    trailerButton.addEventListener('click', () => {
-      openTrailerModal(movie.id);
+    let isTrailerOpening = false;
+
+    trailerButton.addEventListener('click', async () => {
+      if (isTrailerOpening) return;
+
+      isTrailerOpening = true;
+      trailerButton.setAttribute('aria-disabled', 'true');
+      showStatus();
+
+      try {
+        await openTrailerModal(movie.id);
+      } catch {
+        showStatus(
+          'The trailer window could not be opened. Please try again.'
+        );
+      } finally {
+        isTrailerOpening = false;
+        trailerButton.removeAttribute('aria-disabled');
+      }
     });
 
     const actions = document.createElement('div');
     actions.className = 'hero-actions';
     actions.append(detailsButton, trailerButton);
 
-    description.after(actions);
-  } catch (error) {
-    console.warn(
-      'Hero yüklenemedi; varsayılan görünüm korunuyor.',
-      error.response?.status || 'Görsel veya bağlantı hatası'
-    );
+    description.after(actions, status);
+  } catch {
+    // Film veya görsel yüklenemezse varsayılan görünüm korunur.
   } finally {
     hideLoader();
   }

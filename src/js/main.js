@@ -23,8 +23,8 @@ let savedTheme = 'dark';
 
 try {
   savedTheme = localStorage.getItem('cinemania-theme') || 'dark';
-} catch (error) {
-  console.warn('Tema tercihi okunamadı.', error);
+} catch {
+  savedTheme = 'dark';
 }
 
 applyTheme(savedTheme);
@@ -38,8 +38,8 @@ themeButton?.addEventListener('click', () => {
 
   try {
     localStorage.setItem('cinemania-theme', nextTheme);
-  } catch (error) {
-    console.warn('Tema tercihi kaydedilemedi.', error);
+  } catch {
+    // Kayıt yapılamasa da seçilen tema açık sayfada uygulanır.
   }
 });
 
@@ -124,28 +124,41 @@ if (menuButton && mobileMenu && closeButton) {
 }
 
 // Film detay modalı
+const weeklyList = document.querySelector('#weeklyList');
 let isMovieModalOpening = false;
+let detailsStatus = null;
+
+if (weeklyList) {
+  detailsStatus = document.createElement('p');
+  detailsStatus.setAttribute('role', 'status');
+  detailsStatus.hidden = true;
+  weeklyList.after(detailsStatus);
+}
 
 async function showMovieDetails(movieId) {
   if (isMovieModalOpening) return;
 
   isMovieModalOpening = true;
 
+  if (detailsStatus) {
+    detailsStatus.textContent = '';
+    detailsStatus.hidden = true;
+  }
+
   try {
     await openMovieModal(movieId);
-  } catch (error) {
-    console.warn(
-      'Film detay penceresi açılamadı:',
-      error.response?.status || error.message
-    );
+  } catch {
+    if (detailsStatus) {
+      detailsStatus.textContent =
+        'Movie details could not be opened. Please try again.';
+      detailsStatus.hidden = false;
+    }
   } finally {
     isMovieModalOpening = false;
   }
 }
 
 // Haftanın popüler filmleri
-const weeklyList = document.querySelector('#weeklyList');
-
 async function loadWeeklyTrends() {
   if (!weeklyList) return;
 
@@ -234,13 +247,8 @@ async function loadWeeklyTrends() {
     }
 
     weeklyList.replaceChildren(...cards);
-  } catch (error) {
+  } catch {
     showMessage('Movies could not be loaded. Please try again later.');
-
-    console.warn(
-      'Weekly Trends yüklenemedi:',
-      error.response?.status || error.message
-    );
   } finally {
     hideLoader();
   }

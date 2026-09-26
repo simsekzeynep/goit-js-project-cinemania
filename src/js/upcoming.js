@@ -1,8 +1,11 @@
 import { showLoader, hideLoader } from './loader.js';
 import { getUpcomingThisMonth, getGenres } from './tmdb-api.js';
+import {
+  isInLibrary,
+  toggleLibrary,
+} from './library-service.js';
 
 const wrapper = document.querySelector('#upcomingWrapper');
-const STORAGE_KEY = 'cinemania-library';
 
 function createElement(tag, className, text) {
   const element = document.createElement(tag);
@@ -11,18 +14,6 @@ function createElement(tag, className, text) {
   if (text !== undefined) element.textContent = text;
 
   return element;
-}
-
-function readLibrary() {
-  const saved = JSON.parse(
-    localStorage.getItem(STORAGE_KEY) || '[]'
-  );
-
-  if (!Array.isArray(saved)) {
-    throw new Error('Kütüphane verisi okunamadı.');
-  }
-
-  return saved;
 }
 
 async function loadUpcoming() {
@@ -37,7 +28,6 @@ async function loadUpcoming() {
       getGenres(),
     ]);
 
-    // Gelen filmler arasından rastgele birini seç.
     const movie = movies.length
       ? movies[Math.floor(Math.random() * movies.length)]
       : null;
@@ -47,13 +37,23 @@ async function loadUpcoming() {
       return;
     }
 
+    // Ortak kütüphanenin beklediği tür nesnelerini hazırla.
+    const movieGenres = (movie.genre_ids || [])
+      .map(id => genres.find(genre => genre.id === id))
+      .filter(Boolean);
+
+    const libraryMovie = {
+      ...movie,
+      genres: movieGenres,
+    };
+
     const article = createElement('article', 'upcoming-card');
     const imagePath = movie.backdrop_path || movie.poster_path;
 
     if (imagePath) {
       const image = createElement('img', 'upcoming-image');
       image.src = `https://image.tmdb.org/t/p/w780${imagePath}`;
-      image.alt = movie.title;
+      image.alt = movie.title || 'Movie image';
       image.loading = 'lazy';
       article.append(image);
     } else {
@@ -67,12 +67,15 @@ async function loadUpcoming() {
     }
 
     const content = createElement('div', 'upcoming-content');
-    const title = createElement('h3', 'upcoming-title', movie.title);
+    const title = createElement(
+      'h3',
+      'upcoming-title',
+      movie.title || 'Untitled movie'
+    );
     const facts = createElement('dl', 'upcoming-facts');
 
-    const genreNames = (movie.genre_ids || [])
-      .map(id => genres.find(genre => genre.id === id)?.name)
-      .filter(Boolean)
+    const genreNames = movieGenres
+      .map(genre => genre.name)
       .join(', ');
 
     const releaseDate = movie.release_date
@@ -83,7 +86,9 @@ async function loadUpcoming() {
       ['Release date', releaseDate],
       [
         'Vote / Votes',
-        `${Number(movie.vote_average || 0).toFixed(1)} / ${movie.vote_count || 0}`,
+        `${Number(movie.vote_average || 0).toFixed(1)} / ${
+          movie.vote_count || 0
+        }`,
       ],
       ['Popularity', Number(movie.popularity || 0).toFixed(1)],
       ['Genre', genreNames || 'Unknown'],
@@ -119,52 +124,57 @@ async function loadUpcoming() {
     status.setAttribute('role', 'status');
 
     function updateButton() {
-      const isSaved = readLibrary().some(
-        item => item.id === movie.id
-      );
+      const saved = isInLibrary(movie.id);
 
-      button.textContent = isSaved
+      button.textContent = saved
         ? 'Remove from my library'
         : 'Add to my library';
 
-      button.setAttribute('aria-pressed', String(isSaved));
+      button.setAttribute('aria-pressed', String(saved));
+      button.disabled = false;
+
+      return saved;
     }
 
-    try {
-      updateButton();
-    } catch {
-      button.textContent = 'Add to my library';
-      button.disabled = true;
-      status.textContent =
-        'Your library is unavailable in this browser.';
+    function syncButton() {
+      try {
+        updateButton();
+      } catch {
+        button.textContent = 'Library unavailable';
+        button.disabled = true;
+        button.removeAttribute('aria-pressed');
+        status.textContent =
+          'Your library could not be read.';
+      }
     }
+
+    syncButton();
 
     button.addEventListener('click', () => {
       try {
-        const library = readLibrary();
-        const isSaved = library.some(
-          item => item.id === movie.id
-        );
+        toggleLibrary(libraryMovie);
+        const saved = updateButton();
 
-        const updatedLibrary = isSaved
-          ? library.filter(item => item.id !== movie.id)
-          : [...library, movie];
-
-        localStorage.setItem(
-          STORAGE_KEY,
-          JSON.stringify(updatedLibrary)
-        );
-
-        updateButton();
-
-        status.textContent = isSaved
-          ? 'Movie removed from your library.'
-          : 'Movie added to your library.';
+        status.textContent = saved
+          ? 'Movie added to your library.'
+          : 'Movie removed from your library.';
       } catch {
         status.textContent =
           'Could not update your library. Please try again.';
       }
     });
+
+    // Detay penceresinde yapılan değişiklikten sonra butonu güncelle.
+    document
+      .querySelector('#movie-modal')
+      ?.addEventListener('close', () => {
+        status.textContent = '';
+        syncButton();
+      });
+
+    // Başka sekmede veya geri dönüşte değişen kayıtları kontrol et.
+    window.addEventListener('storage', syncButton);
+    window.addEventListener('pageshow', syncButton);
 
     content.append(
       title,
@@ -177,14 +187,9 @@ async function loadUpcoming() {
 
     article.append(content);
     wrapper.replaceChildren(article);
-  } catch (error) {
+  } catch {
     wrapper.textContent =
       'Movie could not be loaded. Please try again later.';
-
-    console.warn(
-      'Upcoming yüklenemedi:',
-      error.response?.status || error.message
-    );
   } finally {
     hideLoader();
   }

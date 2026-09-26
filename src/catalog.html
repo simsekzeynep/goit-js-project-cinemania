@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Cinemania — Catalog</title>
+
+    <link rel="stylesheet" href="./css/reset.css" />
+    <link rel="stylesheet" href="./css/styles.css" />
+    <link rel="stylesheet" href="./css/catalog.css" />
+  </head>
+
+  <body class="catalog-page">
+    <load src="./partials/header.html" />
+
+    <main>
+      <!-- HERO -->
+      <section class="catalog-hero" id="catalogHero">
+        <div class="catalog-container">
+          <div
+            class="catalog-hero-content"
+            id="catalogHeroContent"
+            hidden
+          >
+            <h1
+              class="catalog-hero-title"
+              id="catalogHeroTitle"
+            ></h1>
+
+            <div
+              class="catalog-hero-rating"
+              id="catalogHeroRating"
+            ></div>
+
+            <p
+              class="catalog-hero-description"
+              id="catalogHeroDescription"
+            ></p>
+
+            <div class="catalog-hero-actions">
+              <button
+                class="catalog-hero-trailer-btn"
+                id="catalogHeroTrailerBtn"
+                type="button"
+              >
+                Watch trailer
+              </button>
+
+              <button
+                class="catalog-hero-details-btn"
+                id="catalogHeroDetailsBtn"
+                type="button"
+              >
+                More details
+              </button>
+            </div>
+          </div>
+
+          <p
+            class="catalog-hero-message"
+            id="catalogHeroMessage"
+            hidden
+          ></p>
+        </div>
+      </section>
+
+      <!-- CATALOG -->
+      <section class="catalog-section">
+        <div class="catalog-container">
+          <!-- SEARCH FORM -->
+          <form
+            class="catalog-search-form"
+            id="catalogSearchForm"
+          >
+            <div class="catalog-search-wrapper">
+              <input
+                class="catalog-search-input"
+                id="catalogSearchInput"
+                type="text"
+                name="query"
+                placeholder="Search"
+                autocomplete="off"
+                aria-label="Search movie"
+              />
+
+              <button
+                class="catalog-clear-btn is-hidden"
+                id="catalogClearBtn"
+                type="button"
+                aria-label="Clear search"
+              >
+                ×
+              </button>
+            </div>
+
+            <!-- YEAR SELECT -->
+            <select
+              class="catalog-year-select"
+              id="catalogYearSelect"
+              name="year"
+              aria-label="Select year"
+            >
+              <option value="">Year</option>
+            </select>
+
+            <!-- SEARCH BUTTON -->
+            <button
+              class="catalog-search-btn"
+              type="submit"
+              aria-label="Search movies"
+            >
+              Search
+            </button>
+          </form>
+
+          <!-- MESSAGE -->
+          <p
+            class="catalog-message"
+            id="catalogMessage"
+            hidden
+          ></p>
+
+          <!-- MOVIE LIST -->
+          <ul
+            class="catalog-list"
+            id="catalogList"
+          ></ul>
+
+          <!-- PAGINATION -->
+          <div
+            class="catalog-pagination"
+            id="catalogPagination"
+            aria-label="Movie pagination"
+          ></div>
+        </div>
+      </section>
+    </main>
+
+    <!-- COMMON PARTIALS -->
+    <load src="./partials/footer.html" />
+    <load src="./partials/modal.html" />
+    <load src="./partials/loader.html" />
+    <load src="./partials/scroll-top.html" />
+
+    <!-- SCRIPTS -->
+    <script type="module" src="./js/main.js"></script>
+    <script type="module" src="./js/catalog.js"></script>
+    <script type="module" src="./js/scrollTop.js"></script>
+  </body>
+</html>

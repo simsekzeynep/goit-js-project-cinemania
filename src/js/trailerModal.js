@@ -72,13 +72,11 @@ export async function openTrailerModal(movieId) {
   try {
     const trailer = await getMovieTrailer(movieId);
 
-    // Kullanıcı beklerken pencereyi kapattıysa sonucu gösterme.
+    // Pencere kapatıldıysa eski isteğin sonucunu gösterme.
     if (currentRequest !== requestId || !dialog.open) return;
 
     if (!trailer?.key) {
-      showMessage(
-        'Sorry, no trailer is available for this movie.'
-      );
+      showMessage('Sorry, no trailer is available for this movie.');
       return;
     }
 
@@ -101,16 +99,11 @@ export async function openTrailerModal(movieId) {
     youtubeLink.textContent = 'Watch on YouTube';
 
     content.replaceChildren(iframe, youtubeLink);
-  } catch (error) {
+  } catch {
     if (currentRequest !== requestId || !dialog.open) return;
 
     showMessage(
       'The trailer could not be loaded. Please try again later.'
-    );
-
-    console.warn(
-      'Fragman yüklenemedi:',
-      error.response?.status || 'Bağlantı hatası'
     );
   }
 }

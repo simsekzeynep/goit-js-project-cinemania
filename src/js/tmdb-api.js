@@ -15,16 +15,24 @@ export async function getGenres() {
   return response.data.genres;
 }
 
-// Haftanın popüler filmlerini getirir.
-export async function getWeeklyTrends() {
+// Catalog için haftalık trendleri sayfalama bilgileriyle getirir.
+export async function getTrendingMovies(page = 1) {
   const response = await axios.get(`${BASE_URL}/trending/movie/week`, {
     params: {
       api_key: API_KEY,
       language: 'en-US',
+      page,
     },
   });
 
-  return response.data.results;
+  return response.data;
+}
+
+// Home için haftalık trendlerin film listesini getirir.
+export async function getWeeklyTrends() {
+  const data = await getTrendingMovies();
+
+  return data.results;
 }
 
 // İçinde bulunduğumuz ayın filmlerini getirir.
@@ -61,6 +69,27 @@ export async function getDailyTrends() {
   return response.data.results;
 }
 
+// Catalog için anahtar kelime ve yıla göre film arar.
+export async function searchMovies(query, year = '', page = 1) {
+  const params = {
+    api_key: API_KEY,
+    query,
+    page,
+    language: 'en-US',
+    include_adult: false,
+  };
+
+  if (year) {
+    params.primary_release_year = year;
+  }
+
+  const response = await axios.get(`${BASE_URL}/search/movie`, {
+    params,
+  });
+
+  return response.data;
+}
+
 // Bir filmin detaylı bilgilerini getirir.
 export async function getMovieDetails(movieId) {
   const response = await axios.get(`${BASE_URL}/movie/${movieId}`, {
@@ -73,17 +102,14 @@ export async function getMovieDetails(movieId) {
   return response.data;
 }
 
-// YouTube fragmanını getirir. Fragman yoksa undefined döner.
+// YouTube fragmanını getirir. Bulunamazsa undefined döner.
 export async function getMovieTrailer(movieId) {
-  const response = await axios.get(
-    `${BASE_URL}/movie/${movieId}/videos`,
-    {
-      params: {
-        api_key: API_KEY,
-        language: 'en-US',
-      },
-    }
-  );
+  const response = await axios.get(`${BASE_URL}/movie/${movieId}/videos`, {
+    params: {
+      api_key: API_KEY,
+      language: 'en-US',
+    },
+  });
 
   return response.data.results.find(
     video => video.site === 'YouTube' && video.type === 'Trailer'
