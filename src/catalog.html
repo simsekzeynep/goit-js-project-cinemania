@@ -2,12 +2,16 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
 
     <title>Cinemania — Catalog</title>
 
     <link rel="stylesheet" href="./css/reset.css" />
     <link rel="stylesheet" href="./css/styles.css" />
+    <link rel="stylesheet" href="./css/movie-card.css" />
     <link rel="stylesheet" href="./css/catalog.css" />
   </head>
 
@@ -16,7 +20,10 @@
 
     <main>
       <!-- HERO -->
-      <section class="catalog-hero" id="catalogHero">
+      <section
+        class="catalog-hero"
+        id="catalogHero"
+      >
         <div class="catalog-container">
           <div
             class="catalog-hero-content"
@@ -68,7 +75,7 @@
       <!-- CATALOG -->
       <section class="catalog-section">
         <div class="catalog-container">
-          <!-- SEARCH FORM -->
+          <!-- SEARCH -->
           <form
             class="catalog-search-form"
             id="catalogSearchForm"
@@ -94,7 +101,6 @@
               </button>
             </div>
 
-            <!-- YEAR SELECT -->
             <select
               class="catalog-year-select"
               id="catalogYearSelect"
@@ -104,7 +110,6 @@
               <option value="">Year</option>
             </select>
 
-            <!-- SEARCH BUTTON -->
             <button
               class="catalog-search-btn"
               type="submit"
@@ -121,7 +126,7 @@
             hidden
           ></p>
 
-          <!-- MOVIE LIST -->
+          <!-- MOVIES -->
           <ul
             class="catalog-list"
             id="catalogList"
@@ -137,15 +142,24 @@
       </section>
     </main>
 
-    <!-- COMMON PARTIALS -->
     <load src="./partials/footer.html" />
     <load src="./partials/modal.html" />
     <load src="./partials/loader.html" />
     <load src="./partials/scroll-top.html" />
 
-    <!-- SCRIPTS -->
-    <script type="module" src="./js/main.js"></script>
-    <script type="module" src="./js/catalog.js"></script>
-    <script type="module" src="./js/scrollTop.js"></script>
+    <script
+      type="module"
+      src="./js/main.js"
+    ></script>
+
+    <script
+      type="module"
+      src="./js/catalog.js"
+    ></script>
+
+    <script
+      type="module"
+      src="./js/scrollTop.js"
+    ></script>
   </body>
 </html>

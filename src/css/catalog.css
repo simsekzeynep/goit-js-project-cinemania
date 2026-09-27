@@ -605,3 +605,13 @@
   outline: 2px solid currentColor;
   outline-offset: 4px;
 }
+/* Common movie card layout */
+
+@media (min-width: 1280px) {
+  .catalog-list {
+    grid-template-columns: repeat(
+      3,
+      minmax(0, 1fr)
+    );
+  }
+}
