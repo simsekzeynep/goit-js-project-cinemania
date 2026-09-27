@@ -601,3 +601,7 @@
     margin-top: 48px;
   }
 }
+.catalog-card:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 4px;
+}
