@@ -29,9 +29,11 @@ const catalogHero = document.querySelector('#catalogHero');
 const catalogHeroContent = document.querySelector('#catalogHeroContent');
 const catalogHeroTitle = document.querySelector('#catalogHeroTitle');
 const catalogHeroRating = document.querySelector('#catalogHeroRating');
+
 const catalogHeroDescription = document.querySelector(
   '#catalogHeroDescription'
 );
+
 const catalogHeroMessage = document.querySelector('#catalogHeroMessage');
 
 const heroDetailsButton = document.querySelector(
@@ -359,9 +361,7 @@ async function fetchAndRenderMovies(
         getDailyMovie(data.results)
       );
     }
-  } catch (error) {
-    console.error(error);
-
+  } catch {
     showCatalogMessage(errorMessage);
   } finally {
     hideLoader();
@@ -560,12 +560,7 @@ function addEventListeners() {
 async function loadGenres() {
   try {
     genres = await getGenres();
-  } catch (error) {
-    console.error(
-      'Genres could not be loaded:',
-      error
-    );
-
+  } catch {
     genres = [];
   }
 }
