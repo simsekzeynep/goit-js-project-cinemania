@@ -1,2 +1,0 @@
-import"./assets/tmdb-api-DV4RryLi.js";import"./assets/main-CVX_Gtpg.js";import"./assets/vendor-D5rSzIS2.js";const e=document.querySelector("#team-modal"),t=document.querySelector(".footer-team-button"),c=document.querySelector(".team-modal__close");e&&t&&(t.addEventListener("click",()=>{e.showModal()}),c.addEventListener("click",()=>{e.close()}),e.addEventListener("click",o=>{o.target===e&&e.close()}));
-//# sourceMappingURL=index.js.map
