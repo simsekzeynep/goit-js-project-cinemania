@@ -5,16 +5,99 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Cinemania — Home</title>
     <script type="module" crossorigin src="/vanilla-app-template/index.js"></script>
-    <link rel="modulepreload" crossorigin href="/vanilla-app-template/assets/styles-gd6xVleH.js">
-    <link rel="modulepreload" crossorigin href="/vanilla-app-template/assets/main-2qJmFDgw.js">
-    <link rel="stylesheet" crossorigin href="/vanilla-app-template/assets/styles-BRgK0tHl.css">
+    <link rel="modulepreload" crossorigin href="/vanilla-app-template/assets/vendor-D5rSzIS2.js">
+    <link rel="modulepreload" crossorigin href="/vanilla-app-template/assets/tmdb-api-DV4RryLi.js">
+    <link rel="modulepreload" crossorigin href="/vanilla-app-template/assets/main-CVX_Gtpg.js">
+    <link rel="stylesheet" crossorigin href="/vanilla-app-template/assets/tmdb-api-Dan3Cczr.css">
   </head>
 
   <body>
-    
+    <header class="header">
+  <div class="container header-container">
+    <a class="logo" href="./index.html" aria-label="Cinemania home">
+      Cinemania
+    </a>
+
+    <button
+      class="menu-toggle"
+      type="button"
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+    >
+      MENU
+    </button>
+
+    <nav class="desktop-nav" aria-label="Main navigation">
+      <ul class="nav-list">
+        <li>
+          <a class="nav-link" href="./index.html" aria-current="page">
+            Home
+          </a>
+        </li>
+        <li>
+          <a class="nav-link" href="./catalog.html">Catalog</a>
+        </li>
+        <li>
+          <a class="nav-link" href="./library.html">My Library</a>
+        </li>
+      </ul>
+    </nav>
+
+    <button
+      class="theme-toggle"
+      type="button"
+      aria-label="Light theme"
+      aria-pressed="false"
+    >
+      <span aria-hidden="true">☀</span>
+    </button>
+  </div>
+
+  <nav
+    class="mobile-menu"
+    id="mobile-menu"
+    aria-label="Mobile navigation"
+    hidden
+  >
+    <button class="menu-close" type="button" aria-label="Close menu">
+      <span aria-hidden="true">×</span>
+    </button>
+
+    <ul class="mobile-nav-list">
+      <li>
+        <a class="nav-link" href="./index.html" aria-current="page">
+          Home
+        </a>
+      </li>
+      <li>
+        <a class="nav-link" href="./catalog.html">Catalog</a>
+      </li>
+      <li>
+        <a class="nav-link" href="./library.html">My Library</a>
+      </li>
+    </ul>
+  </nav>
+</header>
 
     <main>
-      
+      <section class="hero" aria-labelledby="hero-title">
+  <div class="container hero-container">
+    <div class="hero-content">
+      <h1 class="hero-title" id="hero-title">
+        Let’s Make Your Own Cinema
+      </h1>
+
+      <p class="hero-description">
+        Is it a movie night? Find your perfect film, explore trending
+        movies, and save your favorites to your library.
+      </p>
+
+      <a class="hero-button" href="./catalog.html">
+        Get started
+      </a>
+    </div>
+  </div>
+</section>
 
       <section class="weekly-trends">
         <div class="container">
@@ -34,7 +117,22 @@
       </section>
     </main>
 
-    
+    <footer class="footer">
+  <div class="container footer-container">
+    <p class="footer-copyright">
+      © 2026 | All Rights Reserved |
+    </p>
+
+    <p class="footer-credits">
+      Developed with
+      <span class="footer-heart" role="img" aria-label="love">♥</span>
+      by
+      <button class="footer-team-button" type="button">
+        GoIT Students
+      </button>
+    </p>
+  </div>
+</footer>
     <dialog id="movie-modal" class="movie-modal">
   <div class="movie-modal__box">
     <button type="button" class="movie-modal__close" aria-label="Close">
