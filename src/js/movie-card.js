@@ -35,10 +35,7 @@ function getStarRating(voteAverage) {
 
   if (!Number.isFinite(rating)) return 0;
 
-  return Math.max(
-    0,
-    Math.min(MAX_STARS, Math.round(rating / 2))
-  );
+  return Math.max(0, Math.min(MAX_STARS, Math.round(rating / 2)));
 }
 
 function createRatingMarkup(voteAverage) {

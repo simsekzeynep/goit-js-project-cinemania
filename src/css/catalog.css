@@ -63,7 +63,6 @@
   display: none;
 }
 
-
 .catalog-hero-title {
   margin: 0 0 12px;
 
@@ -392,11 +391,7 @@
 
   padding: 45px 12px 12px;
 
-  background: linear-gradient(
-    to top,
-    rgba(0, 0, 0, 0.95),
-    rgba(0, 0, 0, 0)
-  );
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0));
 }
 
 .catalog-card-info {
@@ -496,8 +491,8 @@
   }
 
   .catalog-hero {
-  min-height: 360px;
-  padding: 56px 0;
+    min-height: 360px;
+    padding: 56px 0;
   }
 
   .catalog-hero-content {

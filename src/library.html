@@ -1,70 +1,81 @@
 <!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cinemania — My Library</title>
 
-  <title>Cinemania — My Library</title>
+    <link rel="stylesheet" href="./css/reset.css" />
+    <link rel="stylesheet" href="./css/styles.css" />
+    <link rel="stylesheet" href="./css/movie-card.css" />
+    <link rel="stylesheet" href="./css/library.css" />
+    <link rel="icon" type="image/svg+xml" href="./images/svg/popcorn.svg" />
+  </head>
 
-  <link rel="stylesheet" href="./css/reset.css" />
-  <link rel="stylesheet" href="./css/styles.css" />
-  <link rel="stylesheet" href="./css/movie-card.css" />
-  <link rel="stylesheet" href="./css/library.css" />
-  <link rel="icon" type="image/svg+xml" href="./images/svg/popcorn.svg" />
-</head>
+  <body>
+    <load src="./partials/header.html" />
 
-<body>
-  <load src="./partials/header.html" />
+    <main>
+      <load src="./partials/library-hero.html" />
 
-  <main>
-    <load src="./partials/library-hero.html" />
+      <section class="library" aria-label="My library">
+        <div class="container">
+          <div class="library-filter">
+            <div class="custom-select" id="genreSelect">
+              <button
+                class="custom-select__trigger"
+                type="button"
+                aria-expanded="false"
+                aria-haspopup="listbox"
+                aria-controls="genreOptions"
+              >
+                <span class="custom-select__title">Genre</span>
+                <span class="custom-select__arrow" aria-hidden="true"></span>
+              </button>
 
-    <section class="library" aria-label="My library">
-      <div class="container">
-        <div class="library-filter">
-          <div class="custom-select" id="genreSelect">
-            <button class="custom-select__trigger" type="button" aria-expanded="false" aria-haspopup="listbox"
-              aria-controls="genreOptions">
-              <span class="custom-select__title">Genre</span>
-              <span class="custom-select__arrow" aria-hidden="true"></span>
-            </button>
-
-            <ul class="custom-select__options" id="genreOptions" role="listbox"></ul>
+              <ul
+                class="custom-select__options"
+                id="genreOptions"
+                role="listbox"
+              ></ul>
+            </div>
           </div>
+
+          <ul class="library-list" id="libraryMoviesList"></ul>
+
+          <div class="library-empty is-hidden" role="status" aria-live="polite">
+            <p class="library-empty__text">
+              OOPS...<br />
+              We are very sorry!<br />
+              You don't have any movies at your library.
+            </p>
+
+            <a class="library-empty__button" href="./catalog.html">
+              Search movie
+            </a>
+          </div>
+
+          <button
+            class="library-load-more is-hidden"
+            id="loadMoreBtn"
+            type="button"
+          >
+            Load more
+          </button>
         </div>
+      </section>
+    </main>
 
-        <ul class="library-list" id="libraryMoviesList"></ul>
+    <load src="./partials/footer.html" />
+    <load src="./partials/modal.html" />
+    <load src="./partials/scroll-top.html" />
+    <load src="./partials/team-modal.html" />
+    <load src="./partials/loader.html" />
 
-        <div class="library-empty is-hidden" role="status" aria-live="polite">
-          <p class="library-empty__text">
-            OOPS...<br />
-            We are very sorry!<br />
-            You don't have any movies at your library.
-          </p>
-
-          <a class="library-empty__button" href="./catalog.html">
-            Search movie
-          </a>
-        </div>
-
-        <button class="library-load-more is-hidden" id="loadMoreBtn" type="button">
-          Load more
-        </button>
-      </div>
-    </section>
-  </main>
-
-  <load src="./partials/footer.html" />
-  <load src="./partials/modal.html" />
-  <load src="./partials/scroll-top.html" />
-  <load src="./partials/team-modal.html" />
-  <load src="./partials/loader.html" />
-
-  <script type="module" src="./js/teamModal.js"></script>
-  <script type="module" src="./js/scrollTop.js"></script>
-  <script type="module" src="./js/main.js"></script>
-  <script type="module" src="./js/library.js"></script>
-</body>
-
+    <script type="module" src="./js/teamModal.js"></script>
+    <script type="module" src="./js/scrollTop.js"></script>
+    <script type="module" src="./js/main.js"></script>
+    <script type="module" src="./js/library.js"></script>
+  </body>
 </html>
