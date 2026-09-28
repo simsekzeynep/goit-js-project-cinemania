@@ -1,8 +1,11 @@
 import { showLoader, hideLoader } from './loader.js';
 import { openMovieModal } from './movieModal.js';
+import { createMovieCardMarkup } from './movie-card.js';
+import { getWeeklyTrends, getGenres } from './tmdb-api.js';
+import '../css/movie-card.css';
 import './hero.js';
 import './upcoming.js';
-import { getWeeklyTrends, getGenres } from './tmdb-api.js';
+
 // Aktif sayfa
 function setActiveNavigation() {
   const currentPage =
@@ -23,17 +26,12 @@ setActiveNavigation();
 
 // Tema
 const themeButton = document.querySelector('.theme-toggle');
-const themeIcon = themeButton?.querySelector('span');
 
 function applyTheme(theme) {
   const isLight = theme === 'light';
 
   document.body.classList.toggle('light-theme', isLight);
   themeButton?.setAttribute('aria-pressed', String(isLight));
-
-  if (themeIcon) {
-    themeIcon.textContent = isLight ? '☾' : '☀';
-  }
 }
 
 let savedTheme = 'dark';
@@ -150,6 +148,28 @@ if (weeklyList) {
   detailsStatus.setAttribute('role', 'status');
   detailsStatus.hidden = true;
   weeklyList.after(detailsStatus);
+
+  weeklyList.addEventListener('click', event => {
+    const card = event.target.closest('.movie-card[data-id]');
+
+    if (!card || !weeklyList.contains(card)) return;
+
+    showMovieDetails(card.dataset.id);
+  });
+
+  weeklyList.addEventListener('keydown', event => {
+    if (event.key !== 'Enter' && event.key !== ' ') return;
+
+    const card = event.target.closest('.movie-card[data-id]');
+
+    if (!card || !weeklyList.contains(card)) return;
+
+    event.preventDefault();
+
+    if (!event.repeat) {
+      showMovieDetails(card.dataset.id);
+    }
+  });
 }
 
 async function showMovieDetails(movieId) {
@@ -175,7 +195,7 @@ async function showMovieDetails(movieId) {
   }
 }
 
-// Haftanın popüler filmleri
+// Haftanın trend filmleri
 async function loadWeeklyTrends() {
   if (!weeklyList) return;
 
@@ -194,76 +214,31 @@ async function loadWeeklyTrends() {
       getGenres(),
     ]);
 
-    const genreNames = new Map(
-      genres.map(genre => [genre.id, genre.name])
+    const genreMap = new Map(
+      genres.map(genre => [genre.id, genre])
     );
 
-    const cards = movies.slice(0, 3).map(movie => {
-      const card = document.createElement('li');
-      card.className = 'weekly-card';
-      card.dataset.movieId = movie.id;
+    const weeklyMovies = movies.slice(0, 3);
 
-      card.tabIndex = 0;
-      card.setAttribute('role', 'button');
-      card.setAttribute('aria-label', `${movie.title} — View details`);
-      card.setAttribute('aria-haspopup', 'dialog');
-
-      card.addEventListener('click', () => {
-        showMovieDetails(movie.id);
-      });
-
-      card.addEventListener('keydown', event => {
-        if (event.key === 'Enter' || event.key === ' ') {
-          event.preventDefault();
-
-          if (!event.repeat) {
-            showMovieDetails(movie.id);
-          }
-        }
-      });
-
-      if (movie.poster_path) {
-        const poster = document.createElement('img');
-        poster.className = 'weekly-card-poster';
-        poster.src = `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
-        poster.alt = movie.title;
-        poster.loading = 'lazy';
-        card.append(poster);
-      }
-
-      const info = document.createElement('div');
-      info.className = 'weekly-card-info';
-
-      const title = document.createElement('h3');
-      title.textContent = movie.title;
-
-      const details = document.createElement('p');
-      const names = (movie.genre_ids || [])
-        .map(id => genreNames.get(id))
-        .filter(Boolean)
-        .slice(0, 2)
-        .join(', ');
-
-      const year = movie.release_date?.slice(0, 4);
-      details.textContent = [names, year].filter(Boolean).join(' | ');
-
-      const rating = document.createElement('p');
-      rating.className = 'weekly-card-rating';
-      rating.textContent =
-        `★ ${Number(movie.vote_average || 0).toFixed(1)} / 10`;
-
-      info.append(title, details, rating);
-      card.append(info);
-
-      return card;
-    });
-
-    if (cards.length === 0) {
+    if (weeklyMovies.length === 0) {
       showMessage('No trending movies found.');
       return;
     }
 
-    weeklyList.replaceChildren(...cards);
+    const markup = weeklyMovies
+      .map(movie => {
+        const movieGenres = (movie.genre_ids || [])
+          .map(id => genreMap.get(id))
+          .filter(Boolean);
+
+        return createMovieCardMarkup({
+          ...movie,
+          genres: movieGenres,
+        });
+      })
+      .join('');
+
+    weeklyList.innerHTML = markup;
   } catch {
     showMessage('Movies could not be loaded. Please try again later.');
   } finally {
