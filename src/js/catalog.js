@@ -1,8 +1,4 @@
-import {
-  getTrendingMovies,
-  searchMovies,
-  getGenres,
-} from './tmdb-api.js';
+import { getTrendingMovies, searchMovies, getGenres } from './tmdb-api.js';
 
 import { openMovieModal } from './movieModal.js';
 import { showLoader, hideLoader } from './loader.js';
@@ -36,9 +32,7 @@ const catalogHeroDescription = document.querySelector(
 
 const catalogHeroMessage = document.querySelector('#catalogHeroMessage');
 
-const heroDetailsButton = document.querySelector(
-  '#catalogHeroDetailsBtn'
-);
+const heroDetailsButton = document.querySelector('#catalogHeroDetailsBtn');
 
 // =========================
 // STATE
@@ -57,11 +51,7 @@ let heroMovieId = null;
 function createYearOptions() {
   const currentYearValue = new Date().getFullYear();
 
-  for (
-    let year = currentYearValue;
-    year >= FIRST_MOVIE_YEAR;
-    year -= 1
-  ) {
+  for (let year = currentYearValue; year >= FIRST_MOVIE_YEAR; year -= 1) {
     const option = document.createElement('option');
 
     option.value = year;
@@ -78,10 +68,7 @@ function createYearOptions() {
 function updateClearButton() {
   const isInputEmpty = searchInput.value.trim() === '';
 
-  clearButton.classList.toggle(
-    'is-hidden',
-    isInputEmpty
-  );
+  clearButton.classList.toggle('is-hidden', isInputEmpty);
 }
 
 function handleClearSearch() {
@@ -97,9 +84,7 @@ function handleClearSearch() {
 function getGenreNames(genreIds = []) {
   return genreIds
     .map(id => {
-      return genres.find(
-        genre => genre.id === id
-      )?.name;
+      return genres.find(genre => genre.id === id)?.name;
     })
     .filter(Boolean)
     .slice(0, 2)
@@ -115,9 +100,7 @@ function getMovieYear(releaseDate) {
 }
 
 function getMovieRating(voteAverage) {
-  return typeof voteAverage === 'number'
-    ? voteAverage.toFixed(1)
-    : '0.0';
+  return typeof voteAverage === 'number' ? voteAverage.toFixed(1) : '0.0';
 }
 
 // =========================
@@ -144,20 +127,16 @@ function renderHero(movie) {
   catalogHeroMessage.hidden = true;
   catalogHeroContent.hidden = false;
 
-  catalogHeroTitle.textContent =
-    movie.title || 'Unknown movie';
+  catalogHeroTitle.textContent = movie.title || 'Unknown movie';
 
   catalogHeroDescription.textContent =
-    movie.overview ||
-    'No description available.';
+    movie.overview || 'No description available.';
 
-  catalogHeroRating.textContent =
-    `★ ${getMovieRating(movie.vote_average)}`;
+  catalogHeroRating.textContent = `★ ${getMovieRating(movie.vote_average)}`;
 
-  catalogHero.style.backgroundImage =
-    movie.backdrop_path
-      ? `url("${BACKDROP_BASE_URL}${movie.backdrop_path}")`
-      : 'none';
+  catalogHero.style.backgroundImage = movie.backdrop_path
+    ? `url("${BACKDROP_BASE_URL}${movie.backdrop_path}")`
+    : 'none';
 }
 
 function getDailyMovie(movies) {
@@ -167,18 +146,11 @@ function getDailyMovie(movies) {
 
   const today = new Date();
 
-  const startOfYear = new Date(
-    today.getFullYear(),
-    0,
-    0
-  );
+  const startOfYear = new Date(today.getFullYear(), 0, 0);
 
-  const dayNumber = Math.floor(
-    (today - startOfYear) / 86400000
-  );
+  const dayNumber = Math.floor((today - startOfYear) / 86400000);
 
-  const movieIndex =
-    dayNumber % movies.length;
+  const movieIndex = dayNumber % movies.length;
 
   return movies[movieIndex];
 }
@@ -192,17 +164,13 @@ function createMovieCard(movie) {
     ? `${IMAGE_BASE_URL}${movie.poster_path}`
     : '';
 
-  const movieGenres =
-    getGenreNames(movie.genre_ids);
+  const movieGenres = getGenreNames(movie.genre_ids);
 
-  const movieYear =
-    getMovieYear(movie.release_date);
+  const movieYear = getMovieYear(movie.release_date);
 
-  const rating =
-    getMovieRating(movie.vote_average);
+  const rating = getMovieRating(movie.vote_average);
 
-  const titleId =
-    `catalog-movie-title-${movie.id}`;
+  const titleId = `catalog-movie-title-${movie.id}`;
 
   return `
     <li
@@ -272,18 +240,14 @@ function showCatalogMessage(message) {
 
 function renderMovies(movies) {
   if (!movies?.length) {
-    showCatalogMessage(
-      'We are sorry, but we could not find any results.'
-    );
+    showCatalogMessage('We are sorry, but we could not find any results.');
 
     return;
   }
 
   catalogMessage.hidden = true;
 
-  catalogList.innerHTML = movies
-    .map(createMovieCard)
-    .join('');
+  catalogList.innerHTML = movies.map(createMovieCard).join('');
 }
 
 // =========================
@@ -291,8 +255,7 @@ function renderMovies(movies) {
 // =========================
 
 function createPageButton(page) {
-  const button =
-    document.createElement('button');
+  const button = document.createElement('button');
 
   button.type = 'button';
   button.textContent = page;
@@ -314,24 +277,12 @@ function renderPagination(page, totalPages) {
     return;
   }
 
-  const startPage = Math.max(
-    1,
-    currentPage - 2
-  );
+  const startPage = Math.max(1, currentPage - 2);
 
-  const endPage = Math.min(
-    totalPages,
-    currentPage + 2
-  );
+  const endPage = Math.min(totalPages, currentPage + 2);
 
-  for (
-    let pageNumber = startPage;
-    pageNumber <= endPage;
-    pageNumber += 1
-  ) {
-    catalogPagination.append(
-      createPageButton(pageNumber)
-    );
+  for (let pageNumber = startPage; pageNumber <= endPage; pageNumber += 1) {
+    catalogPagination.append(createPageButton(pageNumber));
   }
 }
 
@@ -339,11 +290,7 @@ function renderPagination(page, totalPages) {
 // API REQUESTS
 // =========================
 
-async function fetchAndRenderMovies(
-  request,
-  errorMessage,
-  options = {}
-) {
+async function fetchAndRenderMovies(request, errorMessage, options = {}) {
   showLoader();
 
   try {
@@ -351,15 +298,10 @@ async function fetchAndRenderMovies(
 
     renderMovies(data.results);
 
-    renderPagination(
-      data.page,
-      data.total_pages
-    );
+    renderPagination(data.page, data.total_pages);
 
     if (options.updateHero) {
-      renderHero(
-        getDailyMovie(data.results)
-      );
+      renderHero(getDailyMovie(data.results));
     }
   } catch {
     showCatalogMessage(errorMessage);
@@ -378,17 +320,9 @@ function loadTrendingMovies(page = 1) {
   );
 }
 
-function loadSearchResults(
-  query,
-  year,
-  page = 1
-) {
+function loadSearchResults(query, year, page = 1) {
   return fetchAndRenderMovies(
-    () => searchMovies(
-      query,
-      year,
-      page
-    ),
+    () => searchMovies(query, year, page),
     'Something went wrong while searching movies.'
   );
 }
@@ -402,33 +336,25 @@ function openCardModal(card) {
     return;
   }
 
-  const movieId = Number(
-    card.dataset.id
-  );
+  const movieId = Number(card.dataset.id);
 
   openMovieModal(movieId);
 }
 
 function handleCatalogClick(event) {
-  const card = event.target.closest(
-    '.catalog-card'
-  );
+  const card = event.target.closest('.catalog-card');
 
   openCardModal(card);
 }
 
 function handleCatalogKeydown(event) {
-  const card = event.target.closest(
-    '.catalog-card'
-  );
+  const card = event.target.closest('.catalog-card');
 
   if (!card) {
     return;
   }
 
-  const isActivationKey =
-    event.key === 'Enter' ||
-    event.key === ' ';
+  const isActivationKey = event.key === 'Enter' || event.key === ' ';
 
   if (!isActivationKey) {
     return;
@@ -446,11 +372,9 @@ function handleCatalogKeydown(event) {
 async function handleSearchSubmit(event) {
   event.preventDefault();
 
-  currentQuery =
-    searchInput.value.trim();
+  currentQuery = searchInput.value.trim();
 
-  currentYear =
-    yearSelect.value;
+  currentYear = yearSelect.value;
 
   currentPage = 1;
 
@@ -459,11 +383,7 @@ async function handleSearchSubmit(event) {
     return;
   }
 
-  await loadSearchResults(
-    currentQuery,
-    currentYear,
-    currentPage
-  );
+  await loadSearchResults(currentQuery, currentYear, currentPage);
 }
 
 // =========================
@@ -483,27 +403,18 @@ function handleHeroDetailsClick() {
 // =========================
 
 async function handlePaginationClick(event) {
-  const button =
-    event.target.closest('button');
+  const button = event.target.closest('button');
 
   if (!button) {
     return;
   }
 
-  currentPage = Number(
-    button.dataset.page
-  );
+  currentPage = Number(button.dataset.page);
 
   if (currentQuery) {
-    await loadSearchResults(
-      currentQuery,
-      currentYear,
-      currentPage
-    );
+    await loadSearchResults(currentQuery, currentYear, currentPage);
   } else {
-    await loadTrendingMovies(
-      currentPage
-    );
+    await loadTrendingMovies(currentPage);
   }
 
   window.scrollTo({
@@ -517,40 +428,19 @@ async function handlePaginationClick(event) {
 // =========================
 
 function addEventListeners() {
-  searchInput.addEventListener(
-    'input',
-    updateClearButton
-  );
+  searchInput.addEventListener('input', updateClearButton);
 
-  clearButton.addEventListener(
-    'click',
-    handleClearSearch
-  );
+  clearButton.addEventListener('click', handleClearSearch);
 
-  searchForm.addEventListener(
-    'submit',
-    handleSearchSubmit
-  );
+  searchForm.addEventListener('submit', handleSearchSubmit);
 
-  catalogList.addEventListener(
-    'click',
-    handleCatalogClick
-  );
+  catalogList.addEventListener('click', handleCatalogClick);
 
-  catalogList.addEventListener(
-    'keydown',
-    handleCatalogKeydown
-  );
+  catalogList.addEventListener('keydown', handleCatalogKeydown);
 
-  heroDetailsButton.addEventListener(
-    'click',
-    handleHeroDetailsClick
-  );
+  heroDetailsButton.addEventListener('click', handleHeroDetailsClick);
 
-  catalogPagination.addEventListener(
-    'click',
-    handlePaginationClick
-  );
+  catalogPagination.addEventListener('click', handlePaginationClick);
 }
 
 // =========================

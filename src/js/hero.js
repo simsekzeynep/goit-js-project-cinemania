@@ -22,11 +22,9 @@ async function loadHero() {
     // Film bulunamazsa varsayılan Hero görünümü kalır.
     if (candidates.length === 0) return;
 
-    const movie =
-      candidates[Math.floor(Math.random() * candidates.length)];
+    const movie = candidates[Math.floor(Math.random() * candidates.length)];
 
-    const imageUrl =
-      `https://image.tmdb.org/t/p/original${movie.backdrop_path}`;
+    const imageUrl = `https://image.tmdb.org/t/p/original${movie.backdrop_path}`;
 
     // Görsel hazır olana kadar varsayılan görünümü koru.
     await new Promise((resolve, reject) => {
@@ -66,8 +64,7 @@ async function loadHero() {
 
     hero.dataset.movieId = movie.id;
     title.textContent = movie.title;
-    description.textContent =
-      movie.overview || 'No description available.';
+    description.textContent = movie.overview || 'No description available.';
     description.classList.add('hero-description-film');
 
     // Ortak film kartlarıyla aynı beş yıldız hesabı.
@@ -127,9 +124,7 @@ async function loadHero() {
       try {
         await openTrailerModal(movie.id);
       } catch {
-        showStatus(
-          'The trailer window could not be opened. Please try again.'
-        );
+        showStatus('The trailer window could not be opened. Please try again.');
       } finally {
         isTrailerOpening = false;
         trailerButton.removeAttribute('aria-disabled');
@@ -155,9 +150,7 @@ async function loadHero() {
       try {
         await openMovieModal(movie.id);
       } catch {
-        showStatus(
-          'Movie details could not be opened. Please try again.'
-        );
+        showStatus('Movie details could not be opened. Please try again.');
       } finally {
         isOpening = false;
         detailsButton.removeAttribute('aria-disabled');

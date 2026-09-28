@@ -8,8 +8,7 @@ import './upcoming.js';
 
 // Aktif sayfa
 function setActiveNavigation() {
-  const currentPage =
-    window.location.pathname.split('/').pop() || 'index.html';
+  const currentPage = window.location.pathname.split('/').pop() || 'index.html';
 
   document.querySelectorAll('.nav-link').forEach(link => {
     const linkPage = new URL(link.href).pathname.split('/').pop();
@@ -214,9 +213,7 @@ async function loadWeeklyTrends() {
       getGenres(),
     ]);
 
-    const genreMap = new Map(
-      genres.map(genre => [genre.id, genre])
-    );
+    const genreMap = new Map(genres.map(genre => [genre.id, genre]));
 
     const weeklyMovies = movies.slice(0, 3);
 
