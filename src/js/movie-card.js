@@ -21,9 +21,7 @@ function getMovieYear(releaseDate) {
 }
 
 function getGenreNames(movie) {
-  if (!Array.isArray(movie.genres)) {
-    return '';
-  }
+  if (!Array.isArray(movie.genres)) return '';
 
   return movie.genres
     .map(genre => genre?.name)
@@ -35,11 +33,12 @@ function getGenreNames(movie) {
 function getStarRating(voteAverage) {
   const rating = Number(voteAverage);
 
-  if (!Number.isFinite(rating)) {
-    return 0;
-  }
+  if (!Number.isFinite(rating)) return 0;
 
-  return Math.max(0, Math.min(MAX_STARS, Math.round(rating / 2)));
+  return Math.max(
+    0,
+    Math.min(MAX_STARS, Math.round(rating / 2))
+  );
 }
 
 function createRatingMarkup(voteAverage) {
@@ -50,11 +49,9 @@ function createRatingMarkup(voteAverage) {
 
     return `
       <span
-        class="movie-card__star ${isFilled ? 'movie-card__star--filled' : ''}"
+        class="movie-card__star"
         aria-hidden="true"
-      >
-        ★
-      </span>
+      >${isFilled ? '★' : '☆'}</span>
     `;
   }).join('');
 }
@@ -71,6 +68,7 @@ export function createMovieCardMarkup(movie) {
   const meta = `${genres} | ${year}`;
 
   const numericRating = Number(movie.vote_average);
+
   const accessibleRating = Number.isFinite(numericRating)
     ? (numericRating / 2).toFixed(1)
     : '0.0';

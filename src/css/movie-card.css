@@ -132,14 +132,10 @@
 }
 
 .movie-card__star {
-    color: #b7b7b7;
+    color: var(--accent-color);
 
     font-size: 13px;
     line-height: 1;
-}
-
-.movie-card__star--filled {
-    color: var(--accent-color);
 }
 
 /* Hover */
