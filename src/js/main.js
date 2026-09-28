@@ -3,6 +3,23 @@ import { openMovieModal } from './movieModal.js';
 import './hero.js';
 import './upcoming.js';
 import { getWeeklyTrends, getGenres } from './tmdb-api.js';
+// Aktif sayfa
+function setActiveNavigation() {
+  const currentPage =
+    window.location.pathname.split('/').pop() || 'index.html';
+
+  document.querySelectorAll('.nav-link').forEach(link => {
+    const linkPage = new URL(link.href).pathname.split('/').pop();
+
+    if (linkPage === currentPage) {
+      link.setAttribute('aria-current', 'page');
+    } else {
+      link.removeAttribute('aria-current');
+    }
+  });
+}
+
+setActiveNavigation();
 
 // Tema
 const themeButton = document.querySelector('.theme-toggle');
