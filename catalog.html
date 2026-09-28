@@ -9,8 +9,8 @@
     <link rel="icon" type="image/svg+xml" href="/vanilla-app-template/assets/popcorn-CULhf2Vt.svg" />
     <script type="module" crossorigin src="/vanilla-app-template/catalog.js"></script>
     <link rel="modulepreload" crossorigin href="/vanilla-app-template/assets/vendor-D5rSzIS2.js">
-    <link rel="modulepreload" crossorigin href="/vanilla-app-template/assets/main-BtdMPvPB.js">
-    <link rel="stylesheet" crossorigin href="/vanilla-app-template/assets/main-DFcxRah1.css">
+    <link rel="modulepreload" crossorigin href="/vanilla-app-template/assets/main-BT5xCFAP.js">
+    <link rel="stylesheet" crossorigin href="/vanilla-app-template/assets/main-DFKxWHwf.css">
     <link rel="stylesheet" crossorigin href="/vanilla-app-template/assets/catalog-C9AaGV4M.css">
   </head>
 
@@ -18,11 +18,21 @@
     <header class="header">
   <div class="container header-container">
     <a class="logo" href="./index.html" aria-label="Cinemania home">
-      <img class="logo-icon" src="/vanilla-app-template/assets/popcorn-CULhf2Vt.svg" alt="" aria-hidden="true" />
+      <img
+        class="logo-icon"
+        src="/vanilla-app-template/assets/popcorn-CULhf2Vt.svg"
+        alt=""
+        aria-hidden="true"
+      />
       <span class="logo-text">Cinemania</span>
     </a>
 
-    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu">
+    <button
+      class="menu-toggle"
+      type="button"
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+    >
       MENU
     </button>
 
@@ -40,12 +50,29 @@
       </ul>
     </nav>
 
-    <button class="theme-toggle" type="button" aria-label="Light theme" aria-pressed="false">
-      <span aria-hidden="true">☀</span>
+    <button
+      class="theme-toggle"
+      type="button"
+      aria-label="Light theme"
+      aria-pressed="false"
+    >
+      <img
+        class="theme-toggle-image"
+        src="data:image/svg+xml,%3csvg%20width='60'%20height='24'%20viewBox='0%200%2060%2024'%20fill='none'%20xmlns='http://www.w3.org/2000/svg'%3e%3crect%20width='60'%20height='24'%20rx='12'%20fill='url(%23paint0_linear_4619_13940)'/%3e%3cpath%20d='M18.3518%205.64817C14.8304%202.12677%209.13195%202.11591%205.62393%205.62393C2.11591%209.13195%202.12677%2014.8304%205.64817%2018.3518C9.16958%2021.8732%2014.8681%2021.8841%2018.3761%2018.3761C21.8841%2014.8681%2021.8732%209.16958%2018.3518%205.64817Z'%20fill='white'/%3e%3cpath%20d='M6.82352%206.57422C3.94457%209.65093%203.95538%2014.6508%206.84766%2017.7418'%20stroke='url(%23paint1_linear_4619_13940)'%20stroke-width='1.2'%20stroke-linecap='round'/%3e%3cpath%20d='M49%2017C51.7614%2017%2054%2014.7614%2054%2012C54%209.23858%2051.7614%207%2049%207C46.2386%207%2044%209.23858%2044%2012C44%2014.7614%2046.2386%2017%2049%2017Z'%20stroke='white'%20stroke-linecap='round'%20stroke-linejoin='round'/%3e%3cpath%20d='M53.907%207.093L53.998%207.002M44.002%2016.998L44.093%2016.907M49%205.056V5M49%2019V18.944M42.056%2012H42M56%2012H55.944M44.093%207.093L44.002%207.002M53.998%2016.998L53.907%2016.907'%20stroke='white'%20stroke-width='1.5'%20stroke-linecap='round'%20stroke-linejoin='round'/%3e%3cdefs%3e%3clinearGradient%20id='paint0_linear_4619_13940'%20x1='7.32865'%20y1='1.71488'%20x2='17.73'%20y2='34.0815'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20stop-color='%23FFC226'/%3e%3cstop%20offset='1'%20stop-color='%23F84119'/%3e%3c/linearGradient%3e%3clinearGradient%20id='paint1_linear_4619_13940'%20x1='6.58183'%20y1='7.37218'%20x2='2.77533'%20y2='8.2955'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20stop-color='%23FFC226'/%3e%3cstop%20offset='1'%20stop-color='%23F84119'/%3e%3c/linearGradient%3e%3c/defs%3e%3c/svg%3e"
+        width="60"
+        height="24"
+        alt=""
+        aria-hidden="true"
+      />
     </button>
   </div>
 
-  <nav class="mobile-menu" id="mobile-menu" aria-label="Mobile navigation" hidden>
+  <nav
+    class="mobile-menu"
+    id="mobile-menu"
+    aria-label="Mobile navigation"
+    hidden
+  >
     <button class="menu-close" type="button" aria-label="Close menu">
       <span aria-hidden="true">×</span>
     </button>
@@ -64,29 +91,17 @@
   </nav>
 </header>
 
+
     <main>
       <!-- HERO -->
       <section class="catalog-hero" id="catalogHero">
         <div class="catalog-container">
-          <div
-            class="catalog-hero-content"
-            id="catalogHeroContent"
-            hidden
-          >
-            <h1
-              class="catalog-hero-title"
-              id="catalogHeroTitle"
-            ></h1>
+          <div class="catalog-hero-content" id="catalogHeroContent" hidden>
+            <h1 class="catalog-hero-title" id="catalogHeroTitle"></h1>
 
-            <div
-              class="catalog-hero-rating"
-              id="catalogHeroRating"
-            ></div>
+            <div class="catalog-hero-rating" id="catalogHeroRating"></div>
 
-            <p
-              class="catalog-hero-description"
-              id="catalogHeroDescription"
-            ></p>
+            <p class="catalog-hero-description" id="catalogHeroDescription"></p>
 
             <div class="catalog-hero-actions">
               <button
@@ -107,11 +122,7 @@
             </div>
           </div>
 
-          <p
-            class="catalog-hero-message"
-            id="catalogHeroMessage"
-            hidden
-          ></p>
+          <p class="catalog-hero-message" id="catalogHeroMessage" hidden></p>
         </div>
       </section>
 
@@ -119,10 +130,7 @@
       <section class="catalog-section">
         <div class="catalog-container">
           <!-- SEARCH FORM -->
-          <form
-            class="catalog-search-form"
-            id="catalogSearchForm"
-          >
+          <form class="catalog-search-form" id="catalogSearchForm">
             <div class="catalog-search-wrapper">
               <input
                 class="catalog-search-input"
@@ -165,17 +173,10 @@
           </form>
 
           <!-- MESSAGE -->
-          <p
-            class="catalog-message"
-            id="catalogMessage"
-            hidden
-          ></p>
+          <p class="catalog-message" id="catalogMessage" hidden></p>
 
           <!-- MOVIE LIST -->
-          <ul
-            class="catalog-list"
-            id="catalogList"
-          ></ul>
+          <ul class="catalog-list" id="catalogList"></ul>
 
           <!-- PAGINATION -->
           <div
@@ -190,20 +191,17 @@
     <!-- COMMON PARTIALS -->
     <footer class="footer">
   <div class="container footer-container">
-    <p class="footer-copyright">
-      © 2026 | All Rights Reserved |
-    </p>
+    <p class="footer-copyright">© 2026 | All Rights Reserved |</p>
 
     <p class="footer-credits">
       Developed with
       <span class="footer-heart" role="img" aria-label="love">♥</span>
       by
-      <button class="footer-team-button" type="button">
-        GoIT Students
-      </button>
+      <button class="footer-team-button" type="button">GoIT Students</button>
     </p>
   </div>
 </footer>
+
     <dialog id="movie-modal" class="movie-modal">
   <div class="movie-modal__box">
     <button type="button" class="movie-modal__close" aria-label="Close">
