@@ -1,3 +1,21 @@
+/*
+  Tema: ana renkler styles.css'teki degiskenlerden geliyor. Kart yuzeyi
+  ve golge tonu bu modal'a ozel, o yuzden burada tanimli.
+*/
+:root {
+  --modal-shadow: rgba(0, 0, 0, 0.7);
+  --team-card-bg: #1a1a1a;
+  --team-card-bg-hover: #202020;
+  --team-card-border: #282828;
+}
+
+body.light-theme {
+  --modal-shadow: rgba(0, 0, 0, 0.2);
+  --team-card-bg: #f6f6f6;
+  --team-card-bg-hover: #eeeeee;
+  --team-card-border: #e0e0e0;
+}
+
 /* ===== Dialog kabuğu ===== */
 .team-modal {
   margin: auto;
@@ -37,11 +55,11 @@
   overflow-y: auto;
   padding: 24px 20px;
   border-radius: 16px;
-  background-color: #111111;
+  background-color: var(--page-bg);
   box-shadow:
     0 0 0 1px rgba(248, 119, 25, 0.4),
     0 0 48px rgba(248, 119, 25, 0.25),
-    0 20px 56px rgba(0, 0, 0, 0.7);
+    0 20px 56px var(--modal-shadow);
 }
 
 /* ===== Kapatma butonu ===== */
@@ -58,7 +76,7 @@
   border: none;
   border-radius: 50%;
   background: transparent;
-  color: #b7b7b7;
+  color: var(--muted-color);
   cursor: pointer;
   transition:
     color 0.2s ease,
@@ -67,7 +85,7 @@
 
 .team-modal__close:hover,
 .team-modal__close:focus-visible {
-  color: #f87719;
+  color: var(--accent-color);
   background-color: rgba(248, 119, 25, 0.12);
 }
 
@@ -77,14 +95,14 @@
   font-size: 20px;
   font-weight: 700;
   text-align: center;
-  color: #ffffff;
+  color: var(--text-color);
 }
 
 .team-modal__subtitle {
   margin-bottom: 20px;
   font-size: 12px;
   text-align: center;
-  color: #b7b7b7;
+  color: var(--muted-color);
 }
 
 /* ===== Kart listesi ===== */
@@ -100,9 +118,9 @@
   column-gap: 12px;
   align-items: center;
   padding: 12px;
-  border: 1px solid #282828;
+  border: 1px solid var(--team-card-border);
   border-radius: 12px;
-  background-color: #1a1a1a;
+  background-color: var(--team-card-bg);
   transition:
     border-color 0.2s ease,
     background-color 0.2s ease;
@@ -110,7 +128,7 @@
 
 .team-card:hover {
   border-color: rgba(248, 119, 25, 0.5);
-  background-color: #202020;
+  background-color: var(--team-card-bg-hover);
 }
 
 .team-card__avatar {
@@ -119,7 +137,7 @@
   height: 40px;
   border-radius: 50%;
   object-fit: cover;
-  background-color: #282828;
+  background-color: var(--team-card-border);
 }
 
 .team-card__info {
@@ -130,12 +148,12 @@
 .team-card__name {
   font-size: 14px;
   font-weight: 700;
-  color: #ffffff;
+  color: var(--text-color);
 }
 
 .team-card__role {
   font-size: 12px;
-  color: #b7b7b7;
+  color: var(--muted-color);
 }
 
 /* ===== Sosyal ikonlar ===== */
@@ -149,13 +167,13 @@
 
 .team-card__link {
   display: flex;
-  color: #595959;
+  color: var(--muted-color);
   transition: color 0.2s ease;
 }
 
 .team-card__link:hover,
 .team-card__link:focus-visible {
-  color: #f87719;
+  color: var(--accent-color);
 }
 
 /* ===== Tablet ===== */
