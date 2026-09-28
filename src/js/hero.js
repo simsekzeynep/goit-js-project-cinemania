@@ -22,11 +22,9 @@ async function loadHero() {
     // Film bulunamazsa varsayılan Hero görünümü kalır.
     if (candidates.length === 0) return;
 
-    const movie =
-      candidates[Math.floor(Math.random() * candidates.length)];
+    const movie = candidates[Math.floor(Math.random() * candidates.length)];
 
-    const imageUrl =
-      `https://image.tmdb.org/t/p/original${movie.backdrop_path}`;
+    const imageUrl = `https://image.tmdb.org/t/p/original${movie.backdrop_path}`;
 
     // Görsel hazır olana kadar varsayılan görünümü koru.
     await new Promise((resolve, reject) => {
@@ -65,16 +63,32 @@ async function loadHero() {
     `;
 
     hero.dataset.movieId = movie.id;
-
     title.textContent = movie.title;
-    description.textContent =
-      movie.overview || 'No description available.';
+    description.textContent = movie.overview || 'No description available.';
     description.classList.add('hero-description-film');
+
+    // Ortak film kartlarıyla aynı beş yıldız hesabı.
+    const numericRating = Number(movie.vote_average);
+    const ratingOutOfFive = Number.isFinite(numericRating)
+      ? Math.max(0, Math.min(5, numericRating / 2))
+      : 0;
+    const filledStars = Math.round(ratingOutOfFive);
 
     const rating = document.createElement('p');
     rating.className = 'hero-rating';
-    rating.textContent =
-      `★ ${Number(movie.vote_average || 0).toFixed(1)} / 10`;
+    rating.setAttribute('role', 'img');
+    rating.setAttribute(
+      'aria-label',
+      `${ratingOutOfFive.toFixed(1)} out of 5 stars`
+    );
+
+    for (let index = 0; index < 5; index += 1) {
+      const star = document.createElement('span');
+      star.className = 'hero-rating-star';
+      star.setAttribute('aria-hidden', 'true');
+      star.textContent = index < filledStars ? '★' : '☆';
+      rating.append(star);
+    }
 
     title.after(rating);
 
@@ -91,38 +105,10 @@ async function loadHero() {
       status.hidden = !message;
     }
 
-    // Film detayları butonu
-    const detailsButton = document.createElement('button');
-    detailsButton.type = 'button';
-    detailsButton.className = 'hero-button';
-    detailsButton.textContent = 'More details';
-    detailsButton.setAttribute('aria-haspopup', 'dialog');
-
-    let isOpening = false;
-
-    detailsButton.addEventListener('click', async () => {
-      if (isOpening) return;
-
-      isOpening = true;
-      detailsButton.setAttribute('aria-disabled', 'true');
-      showStatus();
-
-      try {
-        await openMovieModal(movie.id);
-      } catch {
-        showStatus(
-          'Movie details could not be opened. Please try again.'
-        );
-      } finally {
-        isOpening = false;
-        detailsButton.removeAttribute('aria-disabled');
-      }
-    });
-
-    // Fragman butonu
+    // Fragman butonu: solda, turuncu dolgulu.
     const trailerButton = document.createElement('button');
     trailerButton.type = 'button';
-    trailerButton.className = 'hero-button hero-button-outline';
+    trailerButton.className = 'hero-button';
     trailerButton.textContent = 'Watch trailer';
     trailerButton.setAttribute('aria-haspopup', 'dialog');
 
@@ -138,18 +124,42 @@ async function loadHero() {
       try {
         await openTrailerModal(movie.id);
       } catch {
-        showStatus(
-          'The trailer window could not be opened. Please try again.'
-        );
+        showStatus('The trailer window could not be opened. Please try again.');
       } finally {
         isTrailerOpening = false;
         trailerButton.removeAttribute('aria-disabled');
       }
     });
 
+    // Detay butonu: sağda, çerçeveli.
+    const detailsButton = document.createElement('button');
+    detailsButton.type = 'button';
+    detailsButton.className = 'hero-button hero-button-outline';
+    detailsButton.textContent = 'More details';
+    detailsButton.setAttribute('aria-haspopup', 'dialog');
+
+    let isOpening = false;
+
+    detailsButton.addEventListener('click', async () => {
+      if (isOpening) return;
+
+      isOpening = true;
+      detailsButton.setAttribute('aria-disabled', 'true');
+      showStatus();
+
+      try {
+        await openMovieModal(movie.id);
+      } catch {
+        showStatus('Movie details could not be opened. Please try again.');
+      } finally {
+        isOpening = false;
+        detailsButton.removeAttribute('aria-disabled');
+      }
+    });
+
     const actions = document.createElement('div');
     actions.className = 'hero-actions';
-    actions.append(detailsButton, trailerButton);
+    actions.append(trailerButton, detailsButton);
 
     description.after(actions, status);
   } catch {

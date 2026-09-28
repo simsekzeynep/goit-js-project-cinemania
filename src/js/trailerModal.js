@@ -82,8 +82,7 @@ export async function openTrailerModal(movieId) {
 
     const iframe = document.createElement('iframe');
     iframe.className = 'trailer-modal-video';
-    iframe.src =
-      `https://www.youtube.com/embed/${encodeURIComponent(trailer.key)}`;
+    iframe.src = `https://www.youtube.com/embed/${encodeURIComponent(trailer.key)}`;
     iframe.title = trailer.name || 'Movie trailer';
     iframe.allow =
       'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
@@ -92,8 +91,7 @@ export async function openTrailerModal(movieId) {
 
     const youtubeLink = document.createElement('a');
     youtubeLink.className = 'trailer-youtube-link';
-    youtubeLink.href =
-      `https://www.youtube.com/watch?v=${encodeURIComponent(trailer.key)}`;
+    youtubeLink.href = `https://www.youtube.com/watch?v=${encodeURIComponent(trailer.key)}`;
     youtubeLink.target = '_blank';
     youtubeLink.rel = 'noopener noreferrer';
     youtubeLink.textContent = 'Watch on YouTube';
@@ -102,8 +100,6 @@ export async function openTrailerModal(movieId) {
   } catch {
     if (currentRequest !== requestId || !dialog.open) return;
 
-    showMessage(
-      'The trailer could not be loaded. Please try again later.'
-    );
+    showMessage('The trailer could not be loaded. Please try again later.');
   }
 }

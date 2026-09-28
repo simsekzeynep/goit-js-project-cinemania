@@ -72,9 +72,7 @@ function getFilteredMovies(movies) {
   }
 
   return movies.filter(movie =>
-    movie.genres?.some(
-      genre => String(genre.id) === String(selectedGenreId)
-    )
+    movie.genres?.some(genre => String(genre.id) === String(selectedGenreId))
   );
 }
 
@@ -126,9 +124,7 @@ function renderLibrary() {
 
   const visibleMovies = filteredMovies.slice(0, displayedMoviesCount);
 
-  libraryList.innerHTML = visibleMovies
-    .map(createMovieCardMarkup)
-    .join('');
+  libraryList.innerHTML = visibleMovies.map(createMovieCardMarkup).join('');
 
   updateLoadMoreButton(filteredMovies.length);
 }
@@ -210,10 +206,7 @@ document.addEventListener('click', event => {
 });
 
 document.addEventListener('keydown', event => {
-  if (
-    event.key === 'Escape' &&
-    genreSelect.classList.contains('is-open')
-  ) {
+  if (event.key === 'Escape' && genreSelect.classList.contains('is-open')) {
     closeGenreSelect(true);
   }
 });

@@ -1,9 +1,6 @@
 import { showLoader, hideLoader } from './loader.js';
 import { getUpcomingThisMonth, getGenres } from './tmdb-api.js';
-import {
-  isInLibrary,
-  toggleLibrary,
-} from './library-service.js';
+import { isInLibrary, toggleLibrary } from './library-service.js';
 
 const wrapper = document.querySelector('#upcomingWrapper');
 
@@ -74,9 +71,7 @@ async function loadUpcoming() {
     );
     const facts = createElement('dl', 'upcoming-facts');
 
-    const genreNames = movieGenres
-      .map(genre => genre.name)
-      .join(', ');
+    const genreNames = movieGenres.map(genre => genre.name).join(', ');
 
     const releaseDate = movie.release_date
       ? movie.release_date.split('-').reverse().join('.')
@@ -105,11 +100,7 @@ async function loadUpcoming() {
       facts.append(term, description);
     });
 
-    const aboutTitle = createElement(
-      'h4',
-      'upcoming-about-title',
-      'About'
-    );
+    const aboutTitle = createElement('h4', 'upcoming-about-title', 'About');
 
     const overview = createElement(
       'p',
@@ -143,8 +134,7 @@ async function loadUpcoming() {
         button.textContent = 'Library unavailable';
         button.disabled = true;
         button.removeAttribute('aria-pressed');
-        status.textContent =
-          'Your library could not be read.';
+        status.textContent = 'Your library could not be read.';
       }
     }
 
@@ -159,37 +149,26 @@ async function loadUpcoming() {
           ? 'Movie added to your library.'
           : 'Movie removed from your library.';
       } catch {
-        status.textContent =
-          'Could not update your library. Please try again.';
+        status.textContent = 'Could not update your library. Please try again.';
       }
     });
 
     // Detay penceresinde yapılan değişiklikten sonra butonu güncelle.
-    document
-      .querySelector('#movie-modal')
-      ?.addEventListener('close', () => {
-        status.textContent = '';
-        syncButton();
-      });
+    document.querySelector('#movie-modal')?.addEventListener('close', () => {
+      status.textContent = '';
+      syncButton();
+    });
 
     // Başka sekmede veya geri dönüşte değişen kayıtları kontrol et.
     window.addEventListener('storage', syncButton);
     window.addEventListener('pageshow', syncButton);
 
-    content.append(
-      title,
-      facts,
-      aboutTitle,
-      overview,
-      button,
-      status
-    );
+    content.append(title, facts, aboutTitle, overview, button, status);
 
     article.append(content);
     wrapper.replaceChildren(article);
   } catch {
-    wrapper.textContent =
-      'Movie could not be loaded. Please try again later.';
+    wrapper.textContent = 'Movie could not be loaded. Please try again later.';
   } finally {
     hideLoader();
   }

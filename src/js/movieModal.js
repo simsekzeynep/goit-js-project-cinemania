@@ -1,9 +1,6 @@
 import { getMovieDetails } from './tmdb-api.js';
 import { showLoader, hideLoader } from './loader.js';
-import {
-  isInLibrary,
-  toggleLibrary,
-} from './library-service.js';
+import { isInLibrary, toggleLibrary } from './library-service.js';
 
 const IMAGE_BASE = 'https://image.tmdb.org/t/p/w500';
 
@@ -62,9 +59,7 @@ if (modal && libraryBtn) {
           : 'Movie removed from your library.'
       );
     } catch {
-      showStatus(
-        'Could not update your library. Please try again.'
-      );
+      showStatus('Could not update your library. Please try again.');
     }
   });
 }
@@ -120,10 +115,8 @@ function fillModal(movie) {
   votes.textContent = movie.vote_count ?? 0;
   popularity.textContent = Number(movie.popularity || 0).toFixed(1);
   genre.textContent =
-    (movie.genres || []).map(item => item.name).join(', ') ||
-    'Unknown';
-  overview.textContent =
-    movie.overview || 'No description available.';
+    (movie.genres || []).map(item => item.name).join(', ') || 'Unknown';
+  overview.textContent = movie.overview || 'No description available.';
 
   libraryBtn.hidden = false;
   libraryBtn.disabled = false;
