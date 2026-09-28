@@ -1,49 +1,14 @@
-import{a as $,s as _,h as q,b as I,d as x,o as M}from"./assets/main-C1gty_e9.js";import"./assets/vendor-D5rSzIS2.js";const D="https://image.tmdb.org/t/p/w500",B="https://image.tmdb.org/t/p/original",R=1900,T=document.querySelector("#catalogSearchForm"),i=document.querySelector("#catalogSearchInput"),y=document.querySelector("#catalogClearBtn"),S=document.querySelector("#catalogYearSelect"),l=document.querySelector("#catalogList"),g=document.querySelector("#catalogMessage"),s=document.querySelector("#catalogPagination"),f=document.querySelector("#catalogHero"),b=document.querySelector("#catalogHeroContent"),Y=document.querySelector("#catalogHeroTitle"),P=document.querySelector("#catalogHeroRating"),A=document.querySelector("#catalogHeroDescription"),u=document.querySelector("#catalogHeroMessage"),N=document.querySelector("#catalogHeroDetailsBtn");let h=[],o=1,c="",p="",d=null;function F(){const t=new Date().getFullYear();for(let e=t;e>=R;e-=1){const a=document.createElement("option");a.value=e,a.textContent=e,S.append(a)}}function v(){const t=i.value.trim()==="";y.classList.toggle("is-hidden",t)}function U(){i.value="",y.classList.add("is-hidden"),i.focus()}function G(t=[]){return t.map(e=>{var a;return(a=h.find(n=>n.id===e))==null?void 0:a.name}).filter(Boolean).slice(0,2).join(", ")}function K(t){return t?t.slice(0,4):"Unknown"}function C(t){return typeof t=="number"?t.toFixed(1):"0.0"}function O(t){if(!t){d=null,b.hidden=!0,u.hidden=!1,u.textContent="We are sorry, but we could not find a movie for today.",f.style.backgroundImage="none";return}d=t.id,u.hidden=!0,b.hidden=!1,Y.textContent=t.title||"Unknown movie",A.textContent=t.overview||"No description available.",P.textContent=`★ ${C(t.vote_average)}`,f.style.backgroundImage=t.backdrop_path?`url("${B}${t.backdrop_path}")`:"none"}function j(t){if(!(t!=null&&t.length))return null;const e=new Date,a=new Date(e.getFullYear(),0,0),r=Math.floor((e-a)/864e5)%t.length;return t[r]}function V(t){const e=t.poster_path?`${D}${t.poster_path}`:"",a=G(t.genre_ids),n=K(t.release_date),r=C(t.vote_average),w=`catalog-movie-title-${t.id}`;return`
-    <li
-      class="catalog-card"
-      data-id="${t.id}"
-      tabindex="0"
-      role="button"
-      aria-labelledby="${w}"
-    >
-      <div class="catalog-card-image-wrapper">
+import{a as k,s as T,h as E,b as q,c as _,d as D,o as w,e as x}from"./assets/main-BWRRlNVk.js";import"./assets/vendor-D5rSzIS2.js";const B="https://image.tmdb.org/t/p/original",I=1900,P=document.querySelector("#catalogSearchForm"),l=document.querySelector("#catalogSearchInput"),p=document.querySelector("#catalogClearBtn"),S=document.querySelector("#catalogYearSelect"),u=document.querySelector("#catalogList"),r=document.querySelector("#catalogMessage"),d=document.querySelector("#catalogPagination"),h=document.querySelector("#catalogHero"),M=document.querySelector("#catalogHeroContent"),R=document.querySelector("#catalogHeroTitle"),Y=document.querySelector("#catalogHeroRating"),A=document.querySelector("#catalogHeroDescription"),f=document.querySelector("#catalogHeroMessage"),F=document.querySelector("#catalogHeroTrailerBtn"),N=document.querySelector("#catalogHeroDetailsBtn");let y=[],o=1,c="",g="",i=null;function O(){const e=new Date().getFullYear();for(let t=e;t>=I;t-=1){const n=document.createElement("option");n.value=t,n.textContent=t,S.append(n)}}function H(){const e=l.value.trim()==="";p.classList.toggle("is-hidden",e)}function K(){l.value="",p.classList.add("is-hidden"),l.focus()}function G(e){return typeof e=="number"?e.toFixed(1):"0.0"}function W(e){if(Array.isArray(e.genres))return e;const t=(e.genre_ids||[]).map(n=>y.find(a=>a.id===n)).filter(Boolean);return{...e,genres:t}}function $(e){if(!e){i=null,M.hidden=!0,f.hidden=!1,f.textContent="We are sorry, but we could not find a movie for today.",h.style.backgroundImage="none";return}i=e.id,f.hidden=!0,M.hidden=!1,R.textContent=e.title||"Unknown movie",A.textContent=e.overview||"No description available.",Y.textContent=`★ ${G(e.vote_average)} / 10`,h.style.backgroundImage=e.backdrop_path?`url("${B}${e.backdrop_path}")`:"none"}function U(e){if(!(e!=null&&e.length))return null;const t=new Date,n=new Date(t.getFullYear(),0,0),s=Math.floor((t-n)/864e5)%e.length;return e[s]}function L(e){u.innerHTML="",d.innerHTML="",r.classList.remove("catalog-message--empty"),r.textContent=e,r.hidden=!1}function V(){u.innerHTML="",d.innerHTML="",r.innerHTML=`
+    <span class="catalog-message__title">
+      OOPS
+    </span>
 
-        ${e?`
-              <img
-                class="catalog-card-image"
-                src="${e}"
-                alt="${t.title}"
-                loading="lazy"
-              />
-            `:`
-              <div class="catalog-card-no-image">
-                Poster unavailable
-              </div>
-            `}
+    <span class="catalog-message__subtitle">
+      We are very sorry!
+    </span>
 
-        <div class="catalog-card-overlay">
-
-          <div class="catalog-card-info">
-
-            <h2
-              class="catalog-card-title"
-              id="${w}"
-            >
-              ${t.title}
-            </h2>
-
-            <p class="catalog-card-meta">
-              ${a||"Unknown"} | ${n}
-            </p>
-
-          </div>
-
-          <p class="catalog-card-rating">
-            ${r}
-          </p>
-
-        </div>
-      </div>
-    </li>
-  `}function H(t){l.innerHTML="",s.innerHTML="",g.textContent=t,g.hidden=!1}function W(t){if(!(t!=null&&t.length)){H("We are sorry, but we could not find any results.");return}g.hidden=!0,l.innerHTML=t.map(V).join("")}function z(t){const e=document.createElement("button");return e.type="button",e.textContent=t,e.dataset.page=t,t===o&&e.classList.add("is-active"),e}function Q(t,e){if(o=t,s.innerHTML="",e<=1)return;const a=Math.max(1,o-2),n=Math.min(e,o+2);for(let r=a;r<=n;r+=1)s.append(z(r))}async function L(t,e,a={}){_();try{const n=await t();W(n.results),Q(n.page,n.total_pages),a.updateHero&&O(j(n.results))}catch{H(e)}finally{q()}}function m(t=1){return L(()=>I(t),"Something went wrong while loading movies.",{updateHero:t===1})}function k(t,e,a=1){return L(()=>x(t,e,a),"Something went wrong while searching movies.")}function E(t){if(!t)return;const e=Number(t.dataset.id);M(e)}function J(t){const e=t.target.closest(".catalog-card");E(e)}function X(t){const e=t.target.closest(".catalog-card");!e||!(t.key==="Enter"||t.key===" ")||(t.preventDefault(),E(e))}async function Z(t){if(t.preventDefault(),c=i.value.trim(),p=S.value,o=1,!c){await m(1);return}await k(c,p,o)}function tt(){d&&M(d)}async function et(t){const e=t.target.closest("button");e&&(o=Number(e.dataset.page),c?await k(c,p,o):await m(o),window.scrollTo({top:f.offsetHeight,behavior:"smooth"}))}function at(){i.addEventListener("input",v),y.addEventListener("click",U),T.addEventListener("submit",Z),l.addEventListener("click",J),l.addEventListener("keydown",X),N.addEventListener("click",tt),s.addEventListener("click",et)}async function nt(){try{h=await $()}catch{h=[]}}async function ot(){F(),v(),at(),await nt(),await m()}ot();
+    <span class="catalog-message__text">
+      We don’t have any results matching your search.
+    </span>
+  `,r.classList.add("catalog-message--empty"),r.hidden=!1}function j(e){if(!(e!=null&&e.length)){V();return}r.hidden=!0,u.innerHTML=e.map(t=>{const n=W(t);return _(n)}).join("")}function Q(e){const t=document.createElement("button");return t.type="button",t.textContent=e,t.dataset.page=e,e===o&&t.classList.add("is-active"),t}function z(e,t){if(o=e,d.innerHTML="",t<=1)return;const n=Math.max(1,o-2),a=Math.min(t,o+2);for(let s=n;s<=a;s+=1)d.append(Q(s))}async function v(e,t,n={}){T();try{const a=await e();j(a.results),z(a.page,a.total_pages),n.updateHero&&$(U(a.results))}catch{L(t)}finally{E()}}function m(e=1){return v(()=>q(e),"Something went wrong while loading movies.",{updateHero:e===1})}function b(e,t,n=1){return v(()=>D(e,t,n),"Something went wrong while searching movies.")}function C(e){if(!e)return;const t=Number(e.dataset.id);w(t)}function J(e){const t=e.target.closest(".movie-card");C(t)}function X(e){const t=e.target.closest(".movie-card");!t||!(e.key==="Enter"||e.key===" ")||(e.preventDefault(),C(t))}async function Z(e){if(e.preventDefault(),c=l.value.trim(),g=S.value,o=1,!c&&g){L("Please enter a movie name to search by year.");return}if(!c){await m(1);return}await b(c,g,o)}async function ee(){i&&await x(i)}function te(){i&&w(i)}async function ne(e){const t=e.target.closest("button");t&&(o=Number(t.dataset.page),c?await b(c,g,o):await m(o),window.scrollTo({top:h.offsetHeight,behavior:"smooth"}))}function ae(){l.addEventListener("input",H),p.addEventListener("click",K),P.addEventListener("submit",Z),u.addEventListener("click",J),u.addEventListener("keydown",X),F.addEventListener("click",ee),N.addEventListener("click",te),d.addEventListener("click",ne)}async function oe(){try{y=await k()}catch{y=[]}}async function re(){O(),H(),ae(),await oe(),await m()}re();
 //# sourceMappingURL=catalog.js.map
