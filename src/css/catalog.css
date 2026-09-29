@@ -479,7 +479,6 @@ body.light-theme .catalog-pagination button.is-active {
 ========================= */
 
 @media (prefers-reduced-motion: reduce) {
-
   .catalog-page,
   .catalog-section,
   .catalog-search-input,

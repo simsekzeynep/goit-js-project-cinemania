@@ -130,8 +130,7 @@ export async function openTrailerModal(movieId) {
   try {
     const trailer = await getMovieTrailer(movieId);
 
-    const isRequestObsolete =
-      currentRequest !== requestId || !dialog.open;
+    const isRequestObsolete = currentRequest !== requestId || !dialog.open;
 
     if (isRequestObsolete) {
       return;
@@ -146,8 +145,7 @@ export async function openTrailerModal(movieId) {
 
     content.replaceChildren(iframe);
   } catch {
-    const isRequestObsolete =
-      currentRequest !== requestId || !dialog.open;
+    const isRequestObsolete = currentRequest !== requestId || !dialog.open;
 
     if (isRequestObsolete) {
       return;
