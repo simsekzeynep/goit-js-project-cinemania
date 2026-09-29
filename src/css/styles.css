@@ -385,8 +385,6 @@ button:focus-visible {
 
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 4;
-  line-clamp: 4;
-
   overflow: hidden;
 }
 
@@ -453,7 +451,7 @@ button:focus-visible {
   font-size: 16px;
 }
 
-.upcoming>.container>.section-title {
+.upcoming > .container > .section-title {
   margin-bottom: 24px;
 }
 
