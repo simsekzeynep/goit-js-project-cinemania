@@ -1,2 +1,0 @@
-const e=document.querySelector("#team-modal"),t=document.querySelector(".footer-team-button"),c=document.querySelector(".team-modal__close");e&&t&&(t.addEventListener("click",()=>{e.showModal()}),c.addEventListener("click",()=>{e.close()}),e.addEventListener("click",o=>{o.target===e&&e.close()}));
-//# sourceMappingURL=team-modal-DAON_gtt.js.map
