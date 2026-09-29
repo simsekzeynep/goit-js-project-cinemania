@@ -39,14 +39,30 @@
       aria-label="Light theme"
       aria-pressed="false"
     >
-      <img
-        class="theme-toggle-image"
-        src="./images/svg/theme-toggle.svg"
-        width="60"
-        height="24"
-        alt=""
-        aria-hidden="true"
-      />
+      <span class="theme-toggle-track" aria-hidden="true">
+        <svg
+          class="theme-toggle-icon theme-toggle-icon--moon"
+          viewBox="0 0 32 32"
+        >
+          <path
+            d="M1.493 16.235c.515 7.302 6.772 13.242 14.261 13.568 5.283.227 10.008-2.212 12.843-6.054 1.174-1.574.544-2.623-1.417-2.268-.959.17-1.947.241-2.978.198-7.001-.284-12.729-6.082-12.757-12.931-.014-1.843.372-3.587 1.074-5.175.773-1.758-.158-2.595-1.947-1.843-5.67 2.368-9.55 8.025-9.078 14.504Z"
+          />
+        </svg>
+
+        <span class="theme-toggle-thumb"></span>
+
+        <svg
+          class="theme-toggle-icon theme-toggle-icon--sun"
+          viewBox="0 0 35 32"
+        >
+          <path
+            d="M16.419 25.156c5.209 0 9.432-4.103 9.432-9.164s-4.223-9.164-9.432-9.164-9.432 4.103-9.432 9.164 4.223 9.164 9.432 9.164Z"
+          />
+          <path
+            d="m26.811 5.906.193-.187M5.839 26.282l.193-.187M16.421 1.715V1.6M16.421 30.4v-.115M1.719 16H1.6M31.242 16h-.119M6.032 5.906l-.193-.187M27.003 26.282l-.193-.187"
+          />
+        </svg>
+      </span>
     </button>
   </div>
 

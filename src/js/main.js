@@ -1,5 +1,5 @@
 import { showLoader, hideLoader } from './loader.js';
-import { openMovieModal } from './movieModal.js';
+import { openMovieModal } from './movie-modal.js';
 import { createMovieCardMarkup } from './movie-card.js';
 import { getWeeklyTrends, getGenres } from './tmdb-api.js';
 import '../css/movie-card.css';

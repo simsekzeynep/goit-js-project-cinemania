@@ -1,7 +1,7 @@
 import { showLoader, hideLoader } from './loader.js';
 import { getDailyTrends } from './tmdb-api.js';
-import { openMovieModal } from './movieModal.js';
-import { openTrailerModal } from './trailerModal.js';
+import { openMovieModal } from './movie-modal.js';
+import { openTrailerModal } from './trailer-modal.js';
 
 async function loadHero() {
   const hero = document.querySelector('.hero');
