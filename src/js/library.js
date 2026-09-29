@@ -1,6 +1,6 @@
 import { getGenres } from './tmdb-api.js';
 import { getLibrary } from './library-service.js';
-import { openMovieModal } from './movieModal.js';
+import { openMovieModal } from './movie-modal.js';
 import { createMovieCardMarkup } from './movie-card.js';
 
 const ITEMS_PER_PAGE = 9;
