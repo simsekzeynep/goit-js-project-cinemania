@@ -4,11 +4,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Cinemania — Home</title>
-    <link rel="icon" type="image/svg+xml" href="/vanilla-app-template/assets/popcorn-CULhf2Vt.svg" />
-    <script type="module" crossorigin src="/vanilla-app-template/assets/vendor-D5rSzIS2.js"></script>
-    <script type="module" crossorigin src="/vanilla-app-template/assets/main-BWRRlNVk.js"></script>
-    <script type="module" crossorigin src="/vanilla-app-template/assets/teamModal-DAON_gtt.js"></script>
-    <link rel="stylesheet" crossorigin href="/vanilla-app-template/assets/main-Cs7ghFlw.css">
+    <link rel="icon" type="image/svg+xml" href="/goit-js-project-cinemania/assets/popcorn-CULhf2Vt.svg" />
+    <script type="module" crossorigin src="/goit-js-project-cinemania/assets/vendor-D5rSzIS2.js"></script>
+    <script type="module" crossorigin src="/goit-js-project-cinemania/assets/main-BhFL297S.js"></script>
+    <script type="module" crossorigin src="/goit-js-project-cinemania/assets/team-modal-DAON_gtt.js"></script>
+    <link rel="stylesheet" crossorigin href="/goit-js-project-cinemania/assets/main-CcOiBguo.css">
   </head>
 
   <body>
@@ -17,7 +17,7 @@
     <a class="logo" href="./index.html" aria-label="Cinemania home">
       <img
         class="logo-icon"
-        src="/vanilla-app-template/assets/popcorn-CULhf2Vt.svg"
+        src="/goit-js-project-cinemania/assets/popcorn-CULhf2Vt.svg"
         alt=""
         aria-hidden="true"
       />
@@ -53,14 +53,30 @@
       aria-label="Light theme"
       aria-pressed="false"
     >
-      <img
-        class="theme-toggle-image"
-        src="data:image/svg+xml,%3csvg%20width='60'%20height='24'%20viewBox='0%200%2060%2024'%20fill='none'%20xmlns='http://www.w3.org/2000/svg'%3e%3crect%20width='60'%20height='24'%20rx='12'%20fill='url(%23paint0_linear_4619_13940)'/%3e%3cpath%20d='M18.3518%205.64817C14.8304%202.12677%209.13195%202.11591%205.62393%205.62393C2.11591%209.13195%202.12677%2014.8304%205.64817%2018.3518C9.16958%2021.8732%2014.8681%2021.8841%2018.3761%2018.3761C21.8841%2014.8681%2021.8732%209.16958%2018.3518%205.64817Z'%20fill='white'/%3e%3cpath%20d='M6.82352%206.57422C3.94457%209.65093%203.95538%2014.6508%206.84766%2017.7418'%20stroke='url(%23paint1_linear_4619_13940)'%20stroke-width='1.2'%20stroke-linecap='round'/%3e%3cpath%20d='M49%2017C51.7614%2017%2054%2014.7614%2054%2012C54%209.23858%2051.7614%207%2049%207C46.2386%207%2044%209.23858%2044%2012C44%2014.7614%2046.2386%2017%2049%2017Z'%20stroke='white'%20stroke-linecap='round'%20stroke-linejoin='round'/%3e%3cpath%20d='M53.907%207.093L53.998%207.002M44.002%2016.998L44.093%2016.907M49%205.056V5M49%2019V18.944M42.056%2012H42M56%2012H55.944M44.093%207.093L44.002%207.002M53.998%2016.998L53.907%2016.907'%20stroke='white'%20stroke-width='1.5'%20stroke-linecap='round'%20stroke-linejoin='round'/%3e%3cdefs%3e%3clinearGradient%20id='paint0_linear_4619_13940'%20x1='7.32865'%20y1='1.71488'%20x2='17.73'%20y2='34.0815'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20stop-color='%23FFC226'/%3e%3cstop%20offset='1'%20stop-color='%23F84119'/%3e%3c/linearGradient%3e%3clinearGradient%20id='paint1_linear_4619_13940'%20x1='6.58183'%20y1='7.37218'%20x2='2.77533'%20y2='8.2955'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20stop-color='%23FFC226'/%3e%3cstop%20offset='1'%20stop-color='%23F84119'/%3e%3c/linearGradient%3e%3c/defs%3e%3c/svg%3e"
-        width="60"
-        height="24"
-        alt=""
-        aria-hidden="true"
-      />
+      <span class="theme-toggle-track" aria-hidden="true">
+        <svg
+          class="theme-toggle-icon theme-toggle-icon--moon"
+          viewBox="0 0 32 32"
+        >
+          <path
+            d="M1.493 16.235c.515 7.302 6.772 13.242 14.261 13.568 5.283.227 10.008-2.212 12.843-6.054 1.174-1.574.544-2.623-1.417-2.268-.959.17-1.947.241-2.978.198-7.001-.284-12.729-6.082-12.757-12.931-.014-1.843.372-3.587 1.074-5.175.773-1.758-.158-2.595-1.947-1.843-5.67 2.368-9.55 8.025-9.078 14.504Z"
+          />
+        </svg>
+
+        <span class="theme-toggle-thumb"></span>
+
+        <svg
+          class="theme-toggle-icon theme-toggle-icon--sun"
+          viewBox="0 0 35 32"
+        >
+          <path
+            d="M16.419 25.156c5.209 0 9.432-4.103 9.432-9.164s-4.223-9.164-9.432-9.164-9.432 4.103-9.432 9.164 4.223 9.164 9.432 9.164Z"
+          />
+          <path
+            d="m26.811 5.906.193-.187M5.839 26.282l.193-.187M16.421 1.715V1.6M16.421 30.4v-.115M1.719 16H1.6M31.242 16h-.119M6.032 5.906l-.193-.187M27.003 26.282l-.193-.187"
+          />
+        </svg>
+      </span>
     </button>
   </div>
 
@@ -150,10 +166,15 @@
       </svg>
     </button>
 
-    <img class="movie-modal__poster" id="movie-poster" alt="" />
+    <img
+      class="movie-modal__poster"
+      id="movie-poster"
+      src="/goit-js-project-cinemania/assets/hero-default-Bsnom0D9.webp"
+      alt="Movie poster"
+    />
 
     <div class="movie-modal__content">
-      <h2 class="movie-modal__title" id="movie-title"></h2>
+      <h2 class="movie-modal__title" id="movie-title">Movie details</h2>
 
       <ul class="movie-info">
         <li class="movie-info__row">
